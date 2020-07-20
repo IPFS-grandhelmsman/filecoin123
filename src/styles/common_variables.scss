@@ -1,0 +1,47 @@
+// theme color
+$primary: #393C95;
+// main background color
+$primaryBackground: #FAFAFA;
+$primaryText: #4C4E57;
+$shadowColor: #363636;
+
+// element theme
+$--color-primary: $primary;
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+@import "~element-ui/packages/theme-chalk/src/index";
+
+// main font color
+$mainFontColor:#333;
+$mainFontSecondColor: #999;
+$mainFontLightColor:#BFCBD9;
+$mainFontTitleColor:#24292E;
+$mainFontSubTitleColor:#BBB;
+$mainStressColor: #E6362B;
+$mainFontSelectedColor:$primary;
+
+// main line color
+$mainLineColor:#EEE;
+$mainLineSelectedColor:$primary;
+
+// main font size
+$mainFontSize: 16px;
+$mainFontSmallSize: 14px;
+$mainFontBigSize: 18px;
+$mainTitleSize: 20px;
+$mainTitleBigSize: 26px;
+
+// main line size
+$mainLineSize: 1px;
+$mainLineSelectedSize: 4px;
+
+// main box size
+$mainPaddingHorizontal: 15px;
+$mainPaddingVertical: 20px;
+$mainMarginHorizontal: 15px;
+$mainMarginVertical: 20px;
+$mainBorderWidth: 1px;
+$mainBorderRadius: 8px;
+
+// screen size
+$screenMD: 719px;
+$screenLG: 1200px;
