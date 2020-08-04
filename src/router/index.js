@@ -44,12 +44,72 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/download',
+    path: '/list/:flag',
     component: Layout,
     children: [{
       path: '',
-      name: 'Download',
-      component: () => import('@/views/download/index')
+      name: 'CommonList',
+      component: () => import('@/views/common-list/index')
+    }]
+  },
+
+  {
+    path: '/data/:flag',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'CommonData',
+      component: () => import('@/views/common-data/index')
+    }]
+  },
+
+  {
+    path: '/peer-map',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'PeerMap',
+      component: () => import('@/views/peer-map/index')
+    }]
+  },
+
+  {
+    path: '/block-height/:value',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'BlockHeight',
+      component: () => import('@/views/block-height/index')
+    }]
+  },
+
+  {
+    path: '/block-detail',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'BlockDetail',
+      component: () => import('@/views/block-detail/index')
+    }]
+  },
+
+  {
+    path: '/message-detail',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'MessageDetail',
+      component: () => import('@/views/message-detail/index')
+    }]
+  },
+
+  {
+    path: '/account-detail/:flag',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'AccountDetail',
+      component: () => import('@/views/account-detail/index')
     }]
   },
 

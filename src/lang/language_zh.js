@@ -21,7 +21,12 @@ export default {
     cancel: '取消',
     retry: '重试',
     currency_symbol: '￥',
-    sign_in_first: '请先登录/注册'
+    sign_in_first: '请先登录/注册',
+    firstPage: '第一页',
+    lastPage: '最后一页',
+    show: '显示',
+    selected: '请选择',
+    records: '条记录'
   },
   page_404: {
     copyright: '版权所有',
@@ -31,7 +36,12 @@ export default {
     msg_content: '网管说这个页面你不能进...'
   },
   header: {
-    title: '天玑钱包',
+    title: 'Filecoin123',
+    home: '首页',
+    blockchain: '区块链',
+    data: '数据',
+    map: '节点地图',
+    input_hint: '请输入地址/消息ID/高度/区块哈希/节点',
     login: '登录',
     register: '注册',
     lang_zh: '简体中文',
@@ -39,18 +49,243 @@ export default {
     personal_center: '个人中心',
     logout: '退出登录'
   },
+  footer: {
+    title: 'Filecoin123',
+    copyright: 'Copyright© 2019-2020 grandhelmsman',
+    case_number: '赣ICP备19007140号',
+    powered_by: '由正舵者提供技术支持',
+    project_description: '项目介绍',
+    filecoin_official_website: 'Filecoin官网',
+    filecoin_manual: 'Filecoin技术说明书',
+    official_browser: '官方浏览器',
+    blockchain: '区块链',
+    block: '区块',
+    message: '消息',
+    account: '账户',
+    data: '数据',
+    miner_data: '矿工数据',
+    coin_data: '代币数据',
+    partner: '合作伙伴',
+    dapponline: 'DappOnline',
+    grandhelmsman: '正舵者',
+    contact_us: '联系我们',
+    help_email: '如需帮助，请发送邮件至',
+    email_address: 'contact@Filecoin123.cn'
+  },
+  time: {
+    year: '{0}年前',
+    month: '{0}月前',
+    day: '{0}天前',
+    hour: '{0}小时前',
+    minute: '{0}分钟前',
+    second: '{0}秒前',
+    minute_second: '{0}分钟 {1}秒前',
+    hour_minute: '{0}小时{1}分钟前',
+    day_hour: '{0}天{1}小时前',
+    hour_minute_second: '{0}小时{1}分钟{2}秒前',
+    day_hour_minute: '{0}天{1}小时{2}分钟前'
+  },
+  app_constant: {
+    status: {
+      success: '成功',
+      fail: '失败'
+    },
+    message_method: {
+      method_all: '全部方法',
+      method_0: '转账',
+      method_1: 'Constructor',
+      method_2: '地址管理',
+      method_4: '变更节点编号',
+      method_5: '提交时空证明',
+      method_6: '数据预提交',
+      method_7: '数据提交证明',
+      method_14: 'AddLockedFund',
+      method_16: 'WithdrawBalance',
+      method_18: 'ChangeMultiaddrs'
+    },
+    account_type: {
+      normal: '普通账户',
+      owner: '所有者账户',
+      miner: '存储矿工',
+      wallet: '钱包账户'
+    }
+  },
   home: {
-    wallet_title: '数字钱包客户端',
-    wallet_features: '专业 安全 可靠',
-    wallet_description: '专业可信赖的数字资产管理工具',
-    wallet_solution: '一站式数字资产解决方案',
-    wallet_item_app: '钱包APP',
-    wallet_item_hardware: '离线硬件钱包',
-    wallet_item_box: '助记词密盒',
-    wallet_detail: '查看详情',
-    qrcode_download: '扫码下载',
-    waiting: '即将上线',
-    download_apk: '下载Android安装包',
-    long_press_to_save: '长按保存图片'
+    lastest_block_height: '最新区块高度',
+    lastest_block_height_description: '当前最新打包的区块编号',
+    computing_power_total: '全网算力',
+    computing_power_total_description: '最新全网总算力',
+    miner_total: '全网矿工数',
+    miner_total_description: '全网的矿工账户总数',
+    available_total: '全网可用 (FIL)',
+    available_total_description: '网络上正在流通，不包含抵押冻结部分的代币数量',
+    in_circulation: '流通中 (FIL)',
+    in_circulation_description: '网络上正在流通的代币数量',
+    mortgage: '抵押数量 (FIL)',
+    mortgage_description: '网络上抵押冻结部分的代币数量',
+    lastest_block_time: '最新出块时间',
+    lastest_block_time_descriptin: '最新区块与上一个区块之间的时间间隔',
+    average_time: '平均出块时间',
+    average_time_description: '近24小时平均出块时间',
+    lastest_block_reward: '最新出块奖励',
+    lastest_block_reward_description: '最新区块产生的区块奖励数值',
+    average_gas_price: '平均gas价格',
+    average_gas_price_description: '近24小时的平均gas价格',
+    average_message_count: '平均消息数量',
+    average_message_count_description: '近24小时每个区块高度的平均消息数量',
+    average_message_size: '平均消息大小',
+    average_message_size_description: '近24小时内的平均消息大小',
+    block_height: '区块高度',
+    all_block: '所有区块',
+    miner: '矿工',
+    block_hash: '区块哈希',
+    reward: '奖励',
+    message_count: '{0}条消息',
+    lastest_message: '最新消息',
+    all_message: '所有消息',
+    sender: '发送',
+    receiver: '接收',
+    miner_ranking: '矿工排行榜',
+    miner_ranking_description: `
+    <li>有效算力：指矿工接入订单后存储的算力，既包含有效存储，也包含自己填装的存储</li>
+    <li>有效算力占比：矿工有效算力占全网有效算力的比例</li>
+    <li>出块：矿工打包区块的数量</li>
+    <li>出块占比：矿工打包区块的数量占全网区块总数的比例</li>
+    <li>挖矿收益：矿工获得的区块奖励总数</li>
+    <li>挖矿收益占比：矿工获得的区块奖励总数占全网区块奖励的比例</li>`,
+    all_miner: '查看所有矿工',
+    ranking: '排名',
+    miner_node: '矿工节点',
+    team: '归属团队',
+    effective_computing_power: '有效算力/占比',
+    // block_count: '出块/占比',
+    // income: '挖矿收益/占比',
+    block_count: '24h 出块奖励',
+    income: '24h 挖矿效率',
+    status: {
+      success: '成功',
+      pending: '等待中',
+      fail: '失败'
+    }
+  },
+  common_list: {
+    block_list: '区块列表',
+    message_list: '消息列表',
+    account_list: '账户列表',
+    block: {
+      type_empty: '空块',
+      type_min_block: '最小票值区块',
+      type_other: '其他区块',
+      list_title: '区块列表',
+      list_total: '总共<span>{0}</span>区块',
+      block_height: '区块高度',
+      hash: '区块哈希',
+      time: '出块时间',
+      message: '消息',
+      reward: '区块奖励',
+      miner: '矿工'
+    },
+    message: {
+      list_title: '消息列表',
+      list_total: '总共<span>{0}</span>消息',
+      hash: '消息哈希',
+      block_height: '区块高度',
+      time: '时间',
+      sender: '发送地址',
+      receiver: '接收地址',
+      value: '数值',
+      status: '状态',
+      type: '类型'
+    },
+    account: {
+      list_title: '账户列表',
+      list_total: '总共<span>{0}</span>账户',
+      index: '序号',
+      address: '账户地址',
+      type: '类型',
+      balance: '余额'
+    }
+  },
+  block_height: {
+    title: '区块高度',
+    block_height: '区块高度',
+    block_hash: '区块哈希',
+    time: '出块时间',
+    message: '消息',
+    reward: '区块奖励',
+    miner: '矿工'
+  },
+  block_detail: {
+    title: '区块详情',
+    hash: '哈希值',
+    block_height: '区块高度',
+    time: '出块时间',
+    block_size: '区块大小',
+    message_count: '消息数',
+    miner: '矿工',
+    reward: '奖励',
+    parent_hash: '父哈希值',
+    parent_weight: '父块重量',
+    ticket: '票证',
+    state_root: '状态根',
+    message: {
+      title: '消息列表',
+      total: '总共{0}消息',
+      hash: '消息哈希',
+      height: '区块高度',
+      time: '时间',
+      sender: '发送地址',
+      receiver: '接收地址',
+      value: '数值',
+      status: '状态',
+      type: '类型'
+    }
+  },
+  message_detail: {
+    title: '消息详情',
+    message_hash: '消息哈希',
+    block_height: '区块高度',
+    block: '区块',
+    time: '时间',
+    sender: '发送地址',
+    receiver: '接收地址',
+    value: '数值',
+    status: '收据',
+    method: '方法',
+    random: '随机值',
+    params: '参数'
+  },
+  account_detail: {
+    title: '账户详情',
+    address: '地址',
+    type: '类型',
+    balance: '余额',
+    code: '代码Cid',
+    random: '随机数',
+    owner: '所有者账户',
+    peer_id: '节点ID',
+    raw_power: '原值算力',
+    quality_power: '有效算力',
+    sector_size: '数据块大小',
+    sector_number: '数据块数量',
+    proving_sector_number: '证明中的数据块数量',
+    fail_number: '失败数量',
+    miner_list: '矿工列表',
+    tabs: {
+      message: '消息',
+      block: '出块'
+    },
+    message: {
+      title: '消息列表',
+      total: '总共{0}条消息',
+      hash: '消息哈希',
+      height: '区块高度',
+      time: '时间',
+      sender: '发送地址',
+      receiver: '接收地址',
+      value: '数值',
+      status: '状态',
+      type: '类型'
+    }
   }
 }

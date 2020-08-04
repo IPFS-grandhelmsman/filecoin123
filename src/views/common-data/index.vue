@@ -1,5 +1,5 @@
 <template>
-  <div class="message-detail-container">
+  <div class="common-data-container">
     <div class="display-pc-and-pad">
 
     </div>
@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'MessageDetail',
+  name: '',
 
   data() {
     return {

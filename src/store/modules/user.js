@@ -1,14 +1,15 @@
 // import { login, logout, getUserInfo } from '@/api/login'
 import { login } from '@/api/common'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+// import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getStorageKey } from '@/utils'
 
 const user = {
   state: {
-    token: getToken(),
-    name: localStorage.getItem('user-name'),
-    email: localStorage.getItem('email'),
-    avatar: localStorage.getItem('avatar'),
-    roles: []
+    // token: getToken(),
+    // name: localStorage.getItem(getStorageKey('user-name')),
+    // email: localStorage.getItem(getStorageKey('email')),
+    // avatar: localStorage.getItem(getStorageKey('avatar')),
+    // roles: []
   },
 
   mutations: {
@@ -18,20 +19,24 @@ const user = {
 
     SET_NAME: (state, name) => {
       state.name = name
+      localStorage.setItem(getStorageKey('user-name'), name)
     },
 
     SET_EMAIL: (state, email) => {
       state.email = email
+      localStorage.setItem(getStorageKey('email'), email)
     },
 
     SET_AVATAR: (state, avatar) => {
       if (avatar) {
         state.avatar = avatar
+        localStorage.setItem(getStorageKey('avatar'), avatar)
       }
     },
 
     SET_ROLES: (state, roles) => {
       state.roles = roles
+      localStorage.setItem(getStorageKey('avatar'), roles)
     }
   },
 
@@ -44,9 +49,6 @@ const user = {
             const data = response.Result
 
             setToken(data.userId)
-            localStorage.setItem('user-name', data.nick_name)
-            localStorage.setItem('email', data.email)
-            localStorage.setItem('avatar', data.img)
 
             commit('SET_TOKEN', data.userId)
             commit('SET_EMAIL', data.email)
@@ -59,6 +61,7 @@ const user = {
         }).catch(error => {
           reject(error)
         })
+
         // setToken('0x601568199207182280')
         // commit('SET_TOKEN', 0x601568199207182280)
         // commit('SET_ROLES', ['admin'])
@@ -97,9 +100,10 @@ const user = {
         //   reject(error)
         // })
         commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        localStorage.removeItem('user-name')
-        localStorage.removeItem('avatar')
+        commit('SET_ROLES', '')
+        commit('SET_NAME', '')
+        commit('SET_AVATAR', '')
+
         removeToken()
         resolve()
       })
@@ -108,13 +112,13 @@ const user = {
     ForceLogout({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
+        commit('SET_ROLES', '')
+        commit('SET_NAME', '')
+        commit('SET_AVATAR', '')
+
         removeToken()
         resolve()
       })
-    },
-
-    ModifyEmail({ commit }, email) {
-      commit('SET_EMAIL', email)
     }
   }
 }

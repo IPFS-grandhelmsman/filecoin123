@@ -1,4 +1,5 @@
 import i18n from '@/lang'
+// import { getToken } from '@/utils/auth'
 
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
@@ -113,4 +114,52 @@ export function formatTime(time, option) {
       d.getMinutes() + i18n.t('js_vals.time_minute')
     )
   }
+}
+
+// 格式化历史时间
+export function formatHistoryTime(time) {
+  let withDay = false
+  let withHour = false
+  let withMinute = false
+
+  const days = parseInt(time / (1000 * 60 * 60 * 24))
+  if (days > 0) {
+    withDay = true
+  }
+
+  const hours = parseInt((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  if (hours > 0) {
+    withHour = true
+  }
+
+  const minutes = parseInt((time % (1000 * 60 * 60)) / (1000 * 60))
+  if (minutes > 0) {
+    withMinute = true
+  }
+
+  const seconds = parseInt((time % (1000 * 60)) / (1000))
+
+  if (withDay) {
+    return i18n.t('time.day_hour_minute', [days, hours, minutes])
+  } else if (withHour) {
+    return i18n.t('time.hour_minute_second', [hours, minutes, seconds])
+  } else if (withMinute) {
+    return i18n.t('time.minute_second', [minutes, seconds])
+  } else {
+    return i18n.t('time.second', [seconds])
+  }
+}
+
+// 格式化文件大小
+export function formatFileSize(value) {
+  if (!value) {
+    return '0 Bytes'
+  }
+  const units = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+  let index = 0
+  const temp = parseFloat(value)
+  index = Math.floor(Math.log(temp) / Math.log(1024))
+  let size = temp / Math.pow(1024, index)
+  size = size.toFixed(2)
+  return size + units[index]
 }

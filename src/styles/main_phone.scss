@@ -1,3 +1,5 @@
+$headerHeight: 50px;
+
 .display-pc-and-pad {
   display: none;
 }
@@ -18,20 +20,106 @@
 
 .main-content {
   width: 100%;
-  padding: 0 16px;
+  padding: 0;
 }
 
+div.app-header {
+  height: $headerHeight;
 
-.app-header {
-  display: none;
+  &.hidden {
+    display: none;
+  }
+
+  >div.main-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    box-sizing: border-box;
+
+    >img {
+      display: block;
+      width: auto;
+      height: 24px;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    >div.feature-wrapper {
+      display: flex;
+      flex: 1;
+      justify-content: flex-end;
+
+      >div.language-wrappe {
+        display: flex;
+        align-items: center;
+
+
+        >div.chinese {
+          color: #999;
+          font-size: 14px;
+
+          &.selected {
+            color: #fff;
+          }
+        }
+
+        >div.english {
+          margin-left: 20px;
+          color: #999;
+          font-size: 14px;
+
+          &.selected {
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+div.app-footer {
+  width: 100%;
+  padding: 30px 0;
+  background-color: #333;
+  letter-spacing: 2px;
+
+  &.hidden {
+    display: none;
+  }
+
+  >div.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 16px;
+    box-sizing: border-box;
+    
+    >h4 {
+      max-width: 200px;
+      color: #fff;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    >div.case-number {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+      margin-left: 0;
+      margin-top: 20px;
+
+      >a {
+        color: #fff;
+        font-size: 14px;
+      }
+    }
+  }
 }
 
 .app-main {
   padding-top: 0;
-}
-
-.app-footer {
-  display: none;
 }
 
 
@@ -45,375 +133,12 @@
 
 div.home-container {
   @extend .base-container-phone;
+  width: 100%;
   padding: 0;
+  overflow-x: hidden;
 
   div.display-phone {
     width: 100%;
-
-    div.wallet-template {
-      width: 100%;
-      padding-top: 30px;
-      background-color: #fff;
-      background-image: url("~/assets/images/img_wallet_template_bg.png");
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-
-      >div.title-wrapper {
-        width: 100%;
-        box-sizing: border-box;
-        padding-left: 15px;
-        padding-right: 15px;
-
-        >h3 {
-          font-size: 20px;
-          color: #333;
-          font-weight: 600;
-        }
-
-        >h5 {
-          font-size: 14px;
-          color: #666;
-          margin-top: 10px;
-        }
-      }
-
-      >div.description {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 50px;
-
-        >img:nth-of-type(1) {
-          width: auto;
-          height: 28px;
-        }
-
-        >img:nth-of-type(2) {
-          width: 100%;
-          height: auto;
-          margin-top: 30px;
-          margin-left: 34vw;
-        }
-
-        >div.text-wrapper {
-          position: relative;
-          display: flex;
-          background-color: #fff;
-          padding: 20px 0;
-          width: 100%;
-          flex-direction: column;
-          align-items: center;
-          box-sizing: border-box;
-
-          >div.items-wrapper {
-            margin-top: 20px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 50px;
-
-            >div.item {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-
-              >img {
-                display: block;
-                width: 40px;
-                height: 40px;
-              }
-
-              >span {
-                margin-top: 12px;
-                font-size: 12px;
-                color: #4c4e57;
-                text-align: center;
-              }
-            }
-
-            >span {
-              position: relative;
-              display: block;
-              box-sizing: border-box;
-              font-weight: 200;
-              top: -20px;
-              padding: 10px;
-              font-size: 32px;
-            }
-          }
-
-          >.el-button {
-            height: 40px;
-            min-width: 80vw;
-            border-radius: 30px;
-            background-color: #393c95;
-            color: #fff;
-            margin-top: 20px;
-          }
-
-          >.download-wrapper {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-            padding: 8px 16px;
-            border-radius: 10px;
-            border: 1px solid #666;
-            justify-content: center;
-
-            >span  {
-              position: relative;
-              display: block;
-              font-size: 14px;
-              color: #666;
-              padding-right: 20px;
-
-              &:after {
-                position: absolute;
-                display: block;
-                width: 1px;
-                height: 20px;
-                content: "";
-                background: #666;
-                right: 0;
-                top: calc(50% - 20px/2);
-              }
-            }
-
-            >img {
-              height: 36px;
-              margin-left: 20px;
-            }
-          }
-        }
-      }
-    }
-
-    .page-footer {
-      width: 100%vw;
-      padding: 20px;
-
-      .copy-right {
-        width: 100%;
-        font-size: 14px;
-        color: #666;
-        text-align: center;
-      }
-    }
-  }
-}
-
-div.download-container {
-  @extend .base-container-phone;
-  padding: 0;
-
-  div.display-phone {
-    width: 100%;
-
-    div.wallet-template {
-      width: 100%;
-      padding-top: 30px;
-      background-color: #fff;
-      background-image: url("~/assets/images/img_wallet_template_bg.png");
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-
-      >div.title-wrapper {
-        width: 100%;
-        box-sizing: border-box;
-        padding-left: 15px;
-        padding-right: 15px;
-
-        >h3 {
-          font-size: 20px;
-          color: #333;
-          font-weight: 600;
-        }
-
-        >h5 {
-          font-size: 14px;
-          color: #666;
-          margin-top: 10px;
-        }
-      }
-
-      >div.description {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        width: 100%;
-        margin-top: 50px;
-
-        >img:nth-of-type(1) {
-          width: auto;
-          height: 28px;
-        }
-
-        >img:nth-of-type(2) {
-          width: 100%;
-          height: auto;
-          margin-top: 30px;
-          margin-left: 34vw;
-        }
-
-        >div.text-wrapper {
-          position: relative;
-          display: flex;
-          background-color: #fff;
-          padding: 20px 0;
-          width: 100%;
-          flex-direction: column;
-          align-items: center;
-          box-sizing: border-box;
-
-          >div.items-wrapper {
-            margin-top: 20px;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 50px;
-
-            >div.item {
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-
-              >img {
-                display: block;
-                width: 40px;
-                height: 40px;
-              }
-
-              >span {
-                margin-top: 12px;
-                font-size: 12px;
-                color: #4c4e57;
-                text-align: center;
-              }
-            }
-
-            >span {
-              position: relative;
-              display: block;
-              box-sizing: border-box;
-              font-weight: 200;
-              top: -20px;
-              padding: 10px;
-              font-size: 32px;
-            }
-          }
-
-          >.el-button {
-            height: 40px;
-            min-width: 80vw;
-            border-radius: 30px;
-            background-color: #393c95;
-            color: #fff;
-            margin-top: 20px;
-          }
-
-          >.download-wrapper {
-            display: flex;
-            align-items: center;
-            margin-top: 20px;
-            padding: 8px 16px;
-            border-radius: 10px;
-            border: 1px solid #666;
-            justify-content: center;
-
-            >span  {
-              position: relative;
-              display: block;
-              font-size: 14px;
-              color: #666;
-              padding-right: 20px;
-
-              &:after {
-                position: absolute;
-                display: block;
-                width: 1px;
-                height: 20px;
-                content: "";
-                background: #666;
-                right: 0;
-                top: calc(50% - 20px/2);
-              }
-            }
-
-            >img {
-              height: 36px;
-              margin-left: 20px;
-            }
-          }
-        }
-      }
-    }
-
-    .page-footer {
-      width: 100%vw;
-      padding: 20px;
-
-      .copy-right {
-        width: 100%;
-        font-size: 14px;
-        color: #666;
-        text-align: center;
-      }
-    }
-  }
-}
-
-.wallet-qrcode-dialog {
-  width: 100vw;
-
-  .el-dialog {
-    height: auto;
-    box-shadow: none;
-    background: transparent;
-  }
-
-  .content-wrapper {
-    width: 100%;
-    height: 100%;
-
-    img {
-      margin: 0 auto;
-      margin-top: 20vh;
-      display: block;
-      width: 260px;
-      height: 260px;
-      border-radius: 16px;
-    }
-
-    h4 {
-      margin-top: 10px;
-      text-align: center;
-      color: #fff;
-      font-size: 14px;
-    }
-  }
-}
-
-.open-browser-tips-dialog {
-  width: 100vw;
-
-  .el-dialog {
-    height: auto;
-    box-shadow: none;
-    background: transparent;
-  }
-
-  .content-wrapper {
-    width: 100%;
-    height: 100%;
-
-    img {
-      display: block;
-      width: 100%;
-    }
+    
   }
 }

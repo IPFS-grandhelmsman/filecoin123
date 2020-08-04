@@ -1,8 +1,8 @@
 // theme color
-$primary: #393C95;
+$primary: #0090ff;
 // main background color
-$primaryBackground: #FAFAFA;
-$primaryText: #4C4E57;
+$primaryBackground: #f5f6fc;
+$primaryText: #3c426b;
 $shadowColor: #363636;
 
 // element theme
@@ -11,16 +11,16 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
 @import "~element-ui/packages/theme-chalk/src/index";
 
 // main font color
-$mainFontColor:#333;
+$mainFontColor:#3c426b;
 $mainFontSecondColor: #999;
-$mainFontLightColor:#BFCBD9;
-$mainFontTitleColor:#24292E;
-$mainFontSubTitleColor:#BBB;
-$mainStressColor: #E6362B;
+$mainFontLightColor:#bfcbd9;
+$mainFontTitleColor:#24292e;
+$mainFontSubTitleColor:#aaa;
+$mainStressColor: #e6362b;
 $mainFontSelectedColor:$primary;
 
 // main line color
-$mainLineColor:#EEE;
+$mainLineColor:#eee;
 $mainLineSelectedColor:$primary;
 
 // main font size

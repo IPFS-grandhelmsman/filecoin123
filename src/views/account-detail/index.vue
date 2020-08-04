@@ -1,6 +1,11 @@
 <template>
   <div class="account-detail-container">
+    <div class="display-pc-and-pad">
 
+    </div>
+    <div class="display-phone">
+
+    </div>
   </div>
 </template>
 
