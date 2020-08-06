@@ -1,387 +1,382 @@
 <template>
-  <div class="home-container">
+<div class="home-container">
 
-    <!-- pc-pad layout -->
-    <div class="display-pc-and-pad">
-      <!-- <div class="map-wrapper">
+  <!-- pc-pad layout -->
+  <div class="display-pc-and-pad">
+    <!-- <div class="map-wrapper">
         <div id="mapChart" class="chart-container">
         </div>
       </div> -->
 
-      <div class="statistics">
-        <div class="main-content">
-          <!-- 区块高度 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.lastest_block_height') }}</span>
-              <el-tooltip :content="$t('home.lastest_block_height_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ tipset_height }}
-            </span>
+    <div class="statistics">
+      <div class="main-content">
+        <!-- 区块高度 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.lastest_block_height') }}</span>
+            <el-tooltip :content="$t('home.lastest_block_height_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
-          <!-- 全网算力 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.computing_power_total') }}</span>
-              <el-tooltip :content="$t('home.computing_power_total_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ statisticsData.quality_adjusted_power ? formatFileSize(statisticsData.quality_adjusted_power) : emptyText }}
-            </span>
+          <span>
+            {{ tipset_height }}
+          </span>
+        </div>
+        <!-- 全网算力 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.computing_power_total') }}</span>
+            <el-tooltip :content="$t('home.computing_power_total_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
-          <!-- 全网矿工数 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.miner_total') }}</span>
-              <el-tooltip :content="$t('home.miner_total_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ totalMiners ? totalMiners : emptyText }}
-            </span>
+          <span>
+            {{ statisticsData.quality_adjusted_power ? formatFileSize(statisticsData.quality_adjusted_power) : emptyText }}
+          </span>
+        </div>
+        <!-- 全网矿工数 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.miner_total') }}</span>
+            <el-tooltip :content="$t('home.miner_total_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
-          <!-- 全网可用 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.available_total') }}</span>
-              <el-tooltip :content="$t('home.available_total_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ statisticsData.outstanding ? statisticsData.outstanding : emptyText }}
-            </span>
+          <span>
+            {{ totalMiners ? totalMiners : emptyText }}
+          </span>
+        </div>
+        <!-- 全网可用 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.available_total') }}</span>
+            <el-tooltip :content="$t('home.available_total_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
-          <!-- 流通中 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.in_circulation') }}</span>
-              <el-tooltip :content="$t('home.in_circulation_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ statisticsData.outstanding ? statisticsData.outstanding : emptyText }}
-            </span>
+          <span>
+            {{ statisticsData.outstanding ? statisticsData.outstanding : emptyText }}
+          </span>
+        </div>
+        <!-- 流通中 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.in_circulation') }}</span>
+            <el-tooltip :content="$t('home.in_circulation_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
-          <!-- 抵押数量 -->
-          <div class="item">
-            <div class="title">
-              <span :class="language">{{ $t('home.mortgage') }}</span>
-              <el-tooltip :content="$t('home.mortgage_description')" placement="bottom" effect="dark">
-                <img src="@/assets/images/icon_help.png" alt="">
-              </el-tooltip>
-            </div>
-            <span>
-              {{ statisticsData.pledge_collateral ? statisticsData.pledge_collateral : emptyText }}
-            </span>
+          <span>
+            {{ statisticsData.outstanding ? statisticsData.outstanding : emptyText }}
+          </span>
+        </div>
+        <!-- 抵押数量 -->
+        <div class="item">
+          <div class="title">
+            <span :class="language">{{ $t('home.mortgage') }}</span>
+            <el-tooltip :content="$t('home.mortgage_description')" placement="bottom" effect="dark">
+              <img src="@/assets/images/icon_help.png" alt="">
+            </el-tooltip>
           </div>
+          <span>
+            {{ statisticsData.pledge_collateral ? statisticsData.pledge_collateral : emptyText }}
+          </span>
         </div>
       </div>
+    </div>
 
-      <div class="charts-wrapper">
-        <div class="main-content">
-          <div class="bar-chart-wrapper">
-            <div id="blockChart">
-              <div id="blocksWonChart" :style="{width: '780px', height: '280px',bottom:'20px'}"></div>
-            </div>
-            <div class="layer">
-              <div class="chart-labels">
-                <div class="miner">
-                  {{ $t('home.miner_no') }}
-                </div>
-                <div class="block-rate">
-                  {{ $t('home.block_rate') }}
-                </div>
+    <div class="charts-wrapper">
+      <div class="main-content">
+        <div class="bar-chart-wrapper">
+          <div id="blockChart">
+            <div id="blocksWonChart" :style="{width: '780px', height: '280px',bottom:'20px'}"></div>
+          </div>
+          <div class="layer">
+            <div class="chart-labels">
+              <div class="miner">
+                {{ $t('home.miner_no') }}
+              </div>
+              <div class="block-rate">
+                {{ $t('home.block_rate') }}
               </div>
             </div>
           </div>
-          <div class="statistics">
-            <!-- 最新出块时间 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.lastest_block_time') }}</span>
-                <el-tooltip :content="$t('home.lastest_block_time_descriptin')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.head_update ? formatHistoryTime(parseInt(statisticsData.head_update) * 1000) : 0 }}
-              </span>
-              <span class="charts">
+        </div>
+        <div class="statistics">
+          <!-- 最新出块时间 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.lastest_block_time') }}</span>
+              <el-tooltip :content="$t('home.lastest_block_time_descriptin')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
+            </div>
+            <span>
+              {{ statisticsData.head_update ? formatHistoryTime(parseInt(statisticsData.head_update) * 1000) : 0 }}
+            </span>
+            <span class="charts">
               <div id="newBlockTimeChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
+          </div>
+          <!-- 平均出块时间 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.average_time') }}</span>
+              <el-tooltip :content="$t('home.average_time_description')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
             </div>
-            <!-- 平均出块时间 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.average_time') }}</span>
-                <el-tooltip :content="$t('home.average_time_description')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.avg_blocktime ? statisticsData.avg_blocktime + 's' : emptyText }}
-              </span>
-              <span class="charts">
+            <span>
+              {{ statisticsData.avg_blocktime ? statisticsData.avg_blocktime + 's' : emptyText }}
+            </span>
+            <span class="charts">
               <div id="AvgBlockTimeChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
+          </div>
+          <!-- 最新出块奖励 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.lastest_block_reward') }}</span>
+              <el-tooltip :content="$t('home.lastest_block_reward_description')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
             </div>
-            <!-- 最新出块奖励 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.lastest_block_reward') }}</span>
-                <el-tooltip :content="$t('home.lastest_block_reward_description')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.block_reward ? statisticsData.block_reward.toFixed(4) + ' FIL' : emptyText }}
-              </span>
-              <span class="charts">
+            <span>
+              {{ statisticsData.block_reward ? statisticsData.block_reward.toFixed(4) + ' FIL' : emptyText }}
+            </span>
+            <span class="charts">
               <div id="blockRewardChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
+          </div>
+          <!-- 平均gas价格 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.average_gas_price') }}</span>
+              <el-tooltip :content="$t('home.average_gas_price_description')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
             </div>
-            <!-- 平均gas价格 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.average_gas_price') }}</span>
-                <el-tooltip :content="$t('home.average_gas_price_description')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.avg_gas_price ? statisticsData.avg_gas_price > 1000000 ? statisticsData.avg_gas_price.toFixed(0) : statisticsData.avg_gas_price.toFixed(4) : emptyText }}
-              </span>
-              <span class="charts">
+            <span>
+              {{ statisticsData.avg_gas_price ? statisticsData.avg_gas_price > 1000000 ? statisticsData.avg_gas_price.toFixed(0) : statisticsData.avg_gas_price.toFixed(4) : emptyText }}
+            </span>
+            <span class="charts">
               <div id="avgGasPriceChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
+          </div>
+          <!-- 平均消息数量 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.average_message_count') }}</span>
+              <el-tooltip :content="$t('home.average_message_count_description')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
             </div>
-            <!-- 平均消息数量 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.average_message_count') }}</span>
-                <el-tooltip :content="$t('home.average_message_count_description')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.avg_messages_tipset ? statisticsData.avg_messages_tipset.toFixed(2) : emptyText }}
-              </span>
-              <span class="charts">
+            <span>
+              {{ statisticsData.avg_messages_tipset ? statisticsData.avg_messages_tipset.toFixed(2) : emptyText }}
+            </span>
+            <span class="charts">
               <div id="avgMessageNumberChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
+          </div>
+
+          <!-- 平均消息大小 -->
+          <div class="item">
+            <div class="title">
+              <span :class="language">{{ $t('home.average_message_size') }}</span>
+              <el-tooltip :content="$t('home.average_message_size_description')" placement="bottom" effect="dark">
+                <img src="@/assets/images/icon_help.png" alt="">
+              </el-tooltip>
             </div>
-            
-            <!-- 平均消息大小 -->
-            <div class="item">
-              <div class="title">
-                <span :class="language">{{ $t('home.average_message_size') }}</span>
-                <el-tooltip :content="$t('home.average_message_size_description')" placement="bottom" effect="dark">
-                  <img src="@/assets/images/icon_help.png" alt="">
-                </el-tooltip>
-              </div>
-              <span>
-                {{ statisticsData.avg_message_size ? statisticsData.avg_message_size.toFixed(2) : emptyText }} Bytes
-              </span>
-              <span class="charts">
+            <span>
+              {{ statisticsData.avg_message_size ? statisticsData.avg_message_size.toFixed(2) : emptyText }} Bytes
+            </span>
+            <span class="charts">
               <div id="avgMessageSizeChart" :style="{width: '186px', height: '50px'}"></div>
             </span>
-            </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="recent-data">
-        <div class="main-content">
-          <div class="block-height">
-            <div class="header">
+    <div class="recent-data">
+      <div class="main-content">
+        <div class="block-height">
+          <div class="header">
+            <span>
+              {{ $t('home.block_height') }}
+            </span>
+            <span class="cursor" @click="navigate('block-height',latestBlockHeader[0].block_header.height)">
+              #{{ latestBlockHeader && latestBlockHeader.length > 0 ? latestBlockHeader[0].block_header.height : emptyText }} ({{ latestBlockHeader.length }})
+            </span>
+            <div class="more cursor" @click="navigate('list/block','')">
               <span>
-                {{ $t('home.block_height') }}
+                {{ $t('home.all_block') }}
               </span>
-              <span class="cursor" @click="navigate('block-height',latestBlockHeader[0].block_header.height)">
-                #{{ latestBlockHeader && latestBlockHeader.length > 0 ? latestBlockHeader[0].block_header.height : emptyText }} ({{ latestBlockHeader.length }})
-              </span>
-              <div class="more cursor" @click="navigate('list/block','')">
-                <span>
-                  {{ $t('home.all_block') }}
-                </span>
-                <img src="@/assets/images/icon_arrow_ios.png" alt="">
-              </div>
-            </div>
-            <div class="body">
-              <div v-for="(item, index) in latestBlockHeader" :key="index" class="block-item">
-                <div class="base-info">
-                  <div class="miner">
-                    <span>{{ $t('home.miner') }}</span>
-                    <span class="cursor" @click="navigate('account-detail',item.block_header.miner)">{{ item.block_header.miner }}</span>
-                    <span>{{ getTimeString(item.block_header.timestamp) }}</span>
-                  </div>
-                  <div class="hash">
-                    <span>{{ $t('home.block_hash') }}</span>
-                    <span :title="item.cid" class="cursor" @click="navigate('block-detail',item.cid)">{{ getAddrFormat(item.cid,16) }}</span>
-                  </div>
-                  <div class="reward">
-                    <span>{{ $t('home.reward') }}</span>
-                    <span>{{ parseFloat(item.reward).toFixed(4) }} FIL</span>
-                  </div>
-                </div>
-                <div class="messages cursor" @click="navigate('block-detail',item.cid)">
-                  <span>{{ $t('home.message_count', [item.msg_cids ? item.msg_cids.length : 0]) }}</span>
-                  <img src="@/assets/images/icon_arrow_ios.png" alt="">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="latest-message">
-            <div class="header">
-              <span>
-                {{ $t('home.lastest_message') }}
-              </span>
-              <div class="more cursor" @click="navigate('list/message','')">
-                <span>
-                  {{ $t('home.all_message') }}
-                </span>
-                <img src="@/assets/images/icon_arrow_ios.png" alt="">
-              </div>
-            </div>
-            <div class="body">
-              <div v-for="(item, index) in latestMessage" :key="index" class="block-item">
-                <!-- <div class="icon-wrapper">
-                  <img src="@/assets/images/icon_email.png" alt="">
-                </div> -->
-                <div class="base-info">
-                  <div class="address">
-                    <span :title="item.cid" class="cursor" @click="navigate('message-detail',item.cid)">{{ getAddrFormat(item.cid,15) }}</span>
-                    <span :class="item.exit_code == '0' ? 'success' : 'fail'">{{ item.exit_code == '0' ? $t('home.status.success') : $t('home.status.fail') }}</span>
-                    <span>{{ parseFloat(item.msg.value).toFixed(4) }} FIL</span>
-                  </div>
-                  <div class="status">
-                    <span>{{ $t('home.sender') }}</span>
-                    <span :title="item.msg.from" class="cursor" @click="navigate('account-detail',item.msg.from)">{{ getAddrFormat(item.msg.from,6) }}</span>
-                    <img src="@/assets/images/icon_arrow.png" alt="">
-                    <span>{{ $t('home.receiver') }}</span>
-                    <span :title="item.msg.to" class="cursor" @click="navigate('account-detail',item.msg.to)">{{ item.msg.to.length > 12 ? getAddrFormat(item.msg.to,4) : item.msg.to }}</span>
-                    <span>{{ getTimeString(item.msgcreate) }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="miner-ranking">
-        <div class="main-content">
-          <div class="title">
-            <div class="text-wrapper">
-              <span>{{ $t('home.miner_ranking') }}</span>
-              <img src="@/assets/images/icon_help.png" alt="">
-            </div>
-            <div class="more cursor" @click="navigate('list/miner','')">
-              <span>{{ $t('home.all_miner') }}</span>
               <img src="@/assets/images/icon_arrow_ios.png" alt="">
             </div>
           </div>
-          <el-table :data="minerRankingData" header-row-class-name="table-header" border stripe>
-            <!-- 排名 -->
-            <el-table-column
-              :label="$t('home.ranking')"
-              :min-width="80"
-              align="center">
-              <template slot-scope="scope">
-                <template v-if="scope.row.rank == 1">
-                  <img class="ranking-icon" src="@/assets/images/icon_ranking1.png" alt="">
-                </template>
-                <template v-else-if="scope.row.rank == 2">
-                  <img class="ranking-icon" src="@/assets/images/icon_ranking2.png" alt="">
-                </template>
-                <template v-else-if="scope.row.rank == 3">
-                  <img class="ranking-icon" src="@/assets/images/icon_ranking3.png" alt="">
-                </template>
-                <template v-else>
-                  <span class="ranking-text">{{ scope.row.rank }}</span>
-                </template>
-              </template>
-            </el-table-column>
-            <!-- 矿工节点 -->
-            <el-table-column
-              :label="$t('home.miner_node')"
-              :min-width="100"
-              class-name="miner-column">
-              <template slot-scope="scope">
-                <span class="cursor" @click="navigate('account-detail',scope.row.miner_address)">{{ scope.row.miner_address }}</span>
-              </template>
-            </el-table-column>
-            <!-- 归属团队 -->
-            <el-table-column
-              :label="$t('home.team')"
-              :min-width="100">
-              <template slot-scope="scope">
-                <div class="team-wrapper">
-                  <span>{{ scope.row.miner_name }}</span>
+          <div class="body">
+            <div v-for="(item, index) in latestBlockHeader" :key="index" class="block-item">
+              <div class="base-info">
+                <div class="miner">
+                  <span>{{ $t('home.miner') }}</span>
+                  <span class="cursor" @click="navigate('account-detail',item.block_header.miner)">{{ item.block_header.miner }}</span>
+                  <span>{{ getTimeString(item.block_header.timestamp) }}</span>
                 </div>
-              </template>
-            </el-table-column>
-            <!-- 有效算力/占比 -->
-            <el-table-column
-              :label="$t('home.effective_computing_power')"
-              :min-width="120">
-              <template slot-scope="scope">
-                <div class="merge-wrapper">
-                  <span>{{ scope.row.increased_power_str }}</span>
-                  <span>{{ scope.row.power_rate }}</span>
+                <div class="hash">
+                  <span>{{ $t('home.block_hash') }}</span>
+                  <span :title="item.cid" class="cursor" @click="navigate('block-detail',item.cid)">{{ getAddrFormat(item.cid,16) }}</span>
                 </div>
-              </template>
-            </el-table-column>
+                <div class="reward">
+                  <span>{{ $t('home.reward') }}</span>
+                  <span>{{ parseFloat(item.reward).toFixed(4) }} FIL</span>
+                </div>
+              </div>
+              <div class="messages cursor" @click="navigate('block-detail',item.cid)">
+                <span>{{ $t('home.message_count', [item.msg_cids ? item.msg_cids.length : 0]) }}</span>
+                <img src="@/assets/images/icon_arrow_ios.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
 
-            <!-- 出块/占比 -->
-            <el-table-column
-              :label="$t('home.block_count')"
-              :min-width="120">
-              <template slot-scope="scope">
-                <div class="merge-wrapper">
-                  <span>{{ scope.row.reward_in_24h }}</span>
+        <div class="latest-message">
+          <div class="header">
+            <span>
+              {{ $t('home.lastest_message') }}
+            </span>
+            <div class="more cursor" @click="navigate('list/message','')">
+              <span>
+                {{ $t('home.all_message') }}
+              </span>
+              <img src="@/assets/images/icon_arrow_ios.png" alt="">
+            </div>
+          </div>
+          <div class="body">
+            <div v-for="(item, index) in latestMessage" :key="index" class="block-item">
+              <!-- <div class="icon-wrapper">
+                  <img src="@/assets/images/icon_email.png" alt="">
+                </div> -->
+              <div class="base-info">
+                <div class="address">
+                  <span :title="item.cid" class="cursor" @click="navigate('message-detail',item.cid)">{{ getAddrFormat(item.cid,15) }}</span>
+                  <span :class="item.exit_code == '0' ? 'success' : 'fail'">{{ item.exit_code == '0' ? $t('home.status.success') : $t('home.status.fail') }}</span>
+                  <span>{{ parseFloat(item.msg.value).toFixed(4) }} FIL</span>
                 </div>
-              </template>
-            </el-table-column>
-
-            <!-- 挖矿收益/占比 -->
-            <el-table-column
-              :label="$t('home.income')"
-              :min-width="140">
-              <template slot-scope="scope">
-                <div class="merge-wrapper">
-                  <span>{{ scope.row.mining_efficiency }}</span>
+                <div class="status">
+                  <span>{{ $t('home.sender') }}</span>
+                  <span :title="item.msg.from" class="cursor" @click="navigate('account-detail',item.msg.from)">{{ getAddrFormat(item.msg.from,6) }}</span>
+                  <img src="@/assets/images/icon_arrow.png" alt="">
+                  <span>{{ $t('home.receiver') }}</span>
+                  <span :title="item.msg.to" class="cursor" @click="navigate('account-detail',item.msg.to)">{{ item.msg.to.length > 12 ? getAddrFormat(item.msg.to,4) : item.msg.to }}</span>
+                  <span>{{ getTimeString(item.msgcreate) }}</span>
                 </div>
-              </template>
-            </el-table-column>
-          </el-table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- phone layout -->
-    <div class="display-phone">
+    <div class="miner-ranking">
+      <div class="main-content">
+        <div class="title">
+          <div class="text-wrapper">
+            <span>{{ $t('home.miner_ranking') }}</span>
+            <img src="@/assets/images/icon_help.png" alt="">
+          </div>
+          <div class="more cursor" @click="navigate('list/miner','')">
+            <span>{{ $t('home.all_miner') }}</span>
+            <img src="@/assets/images/icon_arrow_ios.png" alt="">
+          </div>
+        </div>
+        <el-table :data="minerRankingData" header-row-class-name="table-header" border stripe>
+          <!-- 排名 -->
+          <el-table-column :label="$t('home.ranking')" :min-width="80" align="center">
+            <template slot-scope="scope">
+              <template v-if="scope.row.rank == 1">
+                <img class="ranking-icon" src="@/assets/images/icon_ranking1.png" alt="">
+              </template>
+              <template v-else-if="scope.row.rank == 2">
+                <img class="ranking-icon" src="@/assets/images/icon_ranking2.png" alt="">
+              </template>
+              <template v-else-if="scope.row.rank == 3">
+                <img class="ranking-icon" src="@/assets/images/icon_ranking3.png" alt="">
+              </template>
+              <template v-else>
+                <span class="ranking-text">{{ scope.row.rank }}</span>
+              </template>
+            </template>
+          </el-table-column>
+          <!-- 矿工节点 -->
+          <el-table-column :label="$t('home.miner_node')" :min-width="100" class-name="miner-column">
+            <template slot-scope="scope">
+              <span class="cursor" @click="navigate('account-detail',scope.row.miner_address)">{{ scope.row.miner_address }}</span>
+            </template>
+          </el-table-column>
+          <!-- 归属团队 -->
+          <el-table-column :label="$t('home.team')" :min-width="100">
+            <template slot-scope="scope">
+              <div class="team-wrapper">
+                <span>{{ scope.row.miner_name }}</span>
+              </div>
+            </template>
+          </el-table-column>
+          <!-- 有效算力/占比 -->
+          <el-table-column :label="$t('home.effective_computing_power')" :min-width="120">
+            <template slot-scope="scope">
+              <div class="merge-wrapper">
+                <span>{{ scope.row.increased_power_str }}</span>
+                <span>{{ scope.row.power_rate }}</span>
+              </div>
+            </template>
+          </el-table-column>
 
+          <!-- 出块/占比 -->
+          <el-table-column :label="$t('home.block_count')" :min-width="120">
+            <template slot-scope="scope">
+              <div class="merge-wrapper">
+                <span>{{ scope.row.reward_in_24h }}</span>
+              </div>
+            </template>
+          </el-table-column>
+
+          <!-- 挖矿收益/占比 -->
+          <el-table-column :label="$t('home.income')" :min-width="140">
+            <template slot-scope="scope">
+              <div class="merge-wrapper">
+                <span>{{ scope.row.mining_efficiency }}</span>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
+
+  <!-- phone layout -->
+  <div class="display-phone">
+
+  </div>
+</div>
 </template>
 
 <script>
 import echarts from 'echarts'
-import { mapGetters } from 'vuex'
-import { formatNumber, parseTime, formatHistoryTime, formatFileSize } from '@/utils'
+import {
+  mapGetters
+} from 'vuex'
+import {
+  formatNumber,
+  parseTime,
+  formatHistoryTime,
+  formatFileSize
+} from '@/utils'
 import * as api from '@/api/common'
 import * as helper from '@/utils/helper'
-import { getAddrFormat } from '@/utils/helper'
+import {
+  getAddrFormat
+} from '@/utils/helper'
 
 export default {
   name: 'Home',
@@ -399,15 +394,29 @@ export default {
       statisticsData: {},
       latestBlockHeader: [],
       latestMessage: [],
-      minerRankingData: [
-        { ranking: 1 }, { ranking: 2 }, { ranking: 3 }, { ranking: 4 }, { ranking: 5 }
-      ],
+      minerRankingData: [{
+        ranking: 1
+      }, {
+        ranking: 2
+      }, {
+        ranking: 3
+      }, {
+        ranking: 4
+      }, {
+        ranking: 5
+      }],
       mapDataSource: [],
       mapChartOptions: {
-        backgroundColor: new echarts.graphic.RadialGradient(0.5, 0.5, 0.4, [{ offset: 0, color: '#0090ff' }, { offset: 1, color: '#403859' }]),
+        backgroundColor: new echarts.graphic.RadialGradient(0.5, 0.5, 0.4, [{
+          offset: 0,
+          color: '#0090ff'
+        }, {
+          offset: 1,
+          color: '#403859'
+        }]),
         tooltip: {
           trigger: 'item',
-          formatter: function(params) {
+          formatter: function (params) {
             const seriesName = params.seriesName
             const value = params.value
 
@@ -451,30 +460,28 @@ export default {
           right: '6%',
           roam: true
         },
-        series: [
-          {
-            name: '',
-            type: 'scatter',
-            coordinateSystem: 'geo',
-            symbolSize: 6,
-            data: [],
-            activeOpacity: 1,
+        series: [{
+          name: '',
+          type: 'scatter',
+          coordinateSystem: 'geo',
+          symbolSize: 6,
+          data: [],
+          activeOpacity: 1,
+          label: {
+            formatter: '{b}',
+            position: 'right',
+            show: false
+          },
+          itemStyle: {
+            borderColor: '#ffffff',
+            color: '#0090ff'
+          },
+          emphasis: {
             label: {
-              formatter: '{b}',
-              position: 'right',
-              show: false
-            },
-            itemStyle: {
-              borderColor: '#ffffff',
-              color: '#0090ff'
-            },
-            emphasis: {
-              label: {
-                show: true
-              }
+              show: true
             }
           }
-        ]
+        }]
       }
     }
   },
@@ -490,11 +497,11 @@ export default {
   },
 
   watch: {
-    language: function() {
+    language: function () {
 
     },
 
-    keyword: function(value) {
+    keyword: function (value) {
       if (value) {
         console.error('active search')
         console.error(value)
@@ -511,7 +518,7 @@ export default {
 
   mounted() {
     // this.drawMapChart()
-    
+
   },
 
   beforeDestroy() {
@@ -764,7 +771,10 @@ export default {
           value.push(item.node_id)
           value.push(item.ip_address)
 
-          mapData.push({ name: this.language === 'en' ? item.name_en : item.name, value: value })
+          mapData.push({
+            name: this.language === 'en' ? item.name_en : item.name,
+            value: value
+          })
         })
       }
       return mapData
@@ -847,10 +857,10 @@ export default {
               orient: 'vertical',
               // pageIconColor: '#00a9eb',       // 可以点击的翻页按钮颜色
               //   pageIconInactiveColor: '#7f7f7f',  // 禁用的按钮颜色
-              pageIconSize:11,
+              pageIconSize: 11,
               pageButtonItemGap: 12,
-              pageIcons:{
-                vertical:[
+              pageIcons: {
+                vertical: [
                   "path://M247.68 693.44a32 32 0 1 1-47.36-42.88l288-320a32 32 0 0 1 47.36 0l288 320a32 32 0 1 1-47.36 42.88L512 399.68z",
                   "path://M512 624.32l264.32-293.76a32 32 0 1 1 47.36 42.88l-288 320a32 32 0 0 1-47.36 0l-288-320a32 32 0 0 1 47.36-42.88z"
                 ],
@@ -860,7 +870,7 @@ export default {
               itemWidth: 12,
               itemHeight: 3,
               // bottom: 1,
-              formatter: function(params) {
+              formatter: function (params) {
                 let str = params + '  '
                 if (maxLen > params.length) {
                   str = params + '    '
@@ -889,7 +899,7 @@ export default {
               textStyle: {
                 align: 'left'
               },
-              formatter: function(params) {
+              formatter: function (params) {
                 let newParams = []
                 const tooltipString = []
                 newParams = [...params]
@@ -973,7 +983,7 @@ export default {
     // 获取排行榜
     fetchTopPower() {
       this.isLoading = true
-      api.fetchGrafanaRank(1, 10).then(response => {
+      api.fetchGrafanaRank(1, 20).then(response => {
         this.isLoading = false
         if (response.code !== 200) {
           return ''
@@ -984,7 +994,7 @@ export default {
         for (const i in data) {
           data[i].rank = 1 + parseInt(i)
           data[i].mining_efficiency = data[i].mining_efficiency.replace(/TiB/, 'TB')
-          data[i].increased_power_str = data[i].increased_power_str.replace(/TiB/,"TB")
+          data[i].increased_power_str = data[i].increased_power_str.replace(/TiB/, "TB")
         }
         this.minerRankingData = data
       }).catch(error => {
@@ -1022,7 +1032,7 @@ export default {
       })
     },
 
-     // 获取基础信息列表
+    // 获取基础信息列表
     fetchBaseInformationList() {
       var that = this
       this.isLoading = true
@@ -1034,29 +1044,24 @@ export default {
         }
 
         var data = response.Result
-
-      //         comCharts : {
-      //   "newBlockTimeChart",
-      //   "AvgBlockTimeChart",
-      //   "blockRewardChart",
-      //   "avgGasPriceChart",
-      //   "avgMessageNumberChart",
-      //   "avgMessageNumberChart",
-      // },
-
-        //that.comCharts
-        var myCharts = {}
-        var newData = []
-        
-        // for(var i = 0; i < that.myCharts.length;i++){
-        //   data.forEach(item => {
-        //     // newData[that.myCharts[i]] = item.
-        //   });
-        //   newData[that.myCharts[i]] = [];
-        // }
-
-        // this.setCommonChart()
-        
+        if (data.block_reward) {
+          that.setCommonChart('blockRewardChart', data.block_reward.xdata, data.block_reward.data)
+        }
+        if (data.head_update) {
+          that.setCommonChart('newBlockTimeChart', data.head_update.xdata, data.head_update.data)
+        }
+        if (data.avg_blocktime) {
+          that.setCommonChart('AvgBlockTimeChart', data.avg_blocktime.xdata, data.avg_blocktime.data)
+        }
+        if (data.avg_gas_price) {
+          that.setCommonChart('avgGasPriceChart', data.avg_gas_price.xdata, data.avg_gas_price.data)
+        }
+        if (data.avg_messages_tipset) {
+          that.setCommonChart('avgMessageNumberChart', data.avg_messages_tipset.xdata, data.avg_messages_tipset.data)
+        }
+        if (data.avg_message_size) {
+          that.setCommonChart('avgMessageSizeChart', data.avg_message_size.xdata, data.avg_message_size.data)
+        }
 
       }).catch(error => {
         console.error(error)
@@ -1066,18 +1071,18 @@ export default {
     /**
      * 设置通用曲线
      */
-    setCommonChart(name = 'avgMessageNumberChart',xdata = [1,1,1,1,1,1],seriesData = [1,1,1,1,1,1]){
+    setCommonChart(name, xdata, seriesData) {
       // 基于准备好的dom，初始化echarts实例
       const chart = echarts.init(document.getElementById(name))
       // const chart = echarts.init(document.getElementById('avgMessageChart'))
       chart.resize()
       chart.setOption({
         legend: {
-            show: false,
+          show: false,
         },
         grid: {
           left: 0,
-          right:0,
+          right: 0,
           bottom: '100%'
         },
         xAxis: {
@@ -1085,22 +1090,22 @@ export default {
           boundaryGap: false,
           data: xdata,
           axisTick: { // y轴刻度线
-            show: false,
+            show: false
           },
           axisLine: { // y轴
-            show: false,
+            show: false
           },
           axisLabel: {
-            show: false,
+            show: false
           }
         },
         yAxis: {
           type: 'value',
           splitLine: {
-            show:false,
+            show: false
           },
           axisTick: { // y轴刻度线
-            show: false,
+            show: false
           },
           axisLine: { // y轴
             show: false
@@ -1108,13 +1113,13 @@ export default {
           min: 0,
           splitNumber: 5, // 显示点数
           axisLabel: {
-            show: false,
+            show: false
           }
         },
         series: [{
           data: seriesData,
-          lineStyle:{
-            width:0.5,  //设置线条粗细
+          lineStyle: {
+            width: 0.5 //设置线条粗细
           },
           type: 'line',
           symbol: 'none',
@@ -1141,7 +1146,6 @@ export default {
     }
   }
 }
-
 </script>
 
 <style lang="scss">
