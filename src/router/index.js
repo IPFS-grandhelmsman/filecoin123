@@ -84,7 +84,7 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/block-detail',
+    path: '/block-detail/:id',
     component: Layout,
     children: [{
       path: '',
@@ -94,7 +94,7 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/message-detail',
+    path: '/message-detail/:id',
     component: Layout,
     children: [{
       path: '',
@@ -104,7 +104,7 @@ export const constantRouterMap = [
   },
 
   {
-    path: '/account-detail/:flag',
+    path: '/account-detail/:id',
     component: Layout,
     children: [{
       path: '',

@@ -26,7 +26,10 @@ export default {
     lastPage: '最后一页',
     show: '显示',
     selected: '请选择',
-    records: '条记录'
+    records: '条记录',
+    location: '位置',
+    peer: '节点',
+    confirmations: '确认'
   },
   page_404: {
     copyright: '版权所有',
@@ -41,13 +44,14 @@ export default {
     blockchain: '区块链',
     data: '数据',
     map: '节点地图',
-    input_hint: '请输入地址/消息ID/高度/区块哈希/节点',
+    input_hint: '请输入地址/消息ID/高度/区块哈希',
     login: '登录',
     register: '注册',
-    lang_zh: '简体中文',
-    lang_en: 'English',
+    lang_zh: '中文',
+    lang_en: 'EN',
     personal_center: '个人中心',
-    logout: '退出登录'
+    logout: '退出登录',
+    no_match: '没有匹配内容'
   },
   footer: {
     title: 'Filecoin123',
@@ -57,6 +61,7 @@ export default {
     project_description: '项目介绍',
     filecoin_official_website: 'Filecoin官网',
     filecoin_manual: 'Filecoin技术说明书',
+    wallet: 'Filecoin钱包',
     official_browser: '官方浏览器',
     blockchain: '区块链',
     block: '区块',
@@ -111,12 +116,13 @@ export default {
     }
   },
   home: {
+    lastest_block: '最新区块',
     lastest_block_height: '最新区块高度',
     lastest_block_height_description: '当前最新打包的区块编号',
     computing_power_total: '全网算力',
     computing_power_total_description: '最新全网总算力',
-    miner_total: '全网矿工数',
-    miner_total_description: '全网的矿工账户总数',
+    miner_total: '全网账户数',
+    miner_total_description: '全网的账户总数',
     available_total: '全网可用 (FIL)',
     available_total_description: '网络上正在流通，不包含抵押冻结部分的代币数量',
     in_circulation: '流通中 (FIL)',
@@ -135,6 +141,8 @@ export default {
     average_message_count_description: '近24小时每个区块高度的平均消息数量',
     average_message_size: '平均消息大小',
     average_message_size_description: '近24小时内的平均消息大小',
+    miner_no: '矿工编号',
+    block_rate: '爆块率',
     block_height: '区块高度',
     all_block: '所有区块',
     miner: '矿工',
@@ -172,6 +180,17 @@ export default {
     block_list: '区块列表',
     message_list: '消息列表',
     account_list: '账户列表',
+    tooltips: {
+      miner: '矿工编号: {0}',
+      height: '区块高度: {0}',
+      time: '出块时间: {0}',
+      hash: '区块哈希: {0}'
+    },
+    legend: {
+      empty_block: '空块',
+      min_ticket_block: '最小票价区块',
+      other_block: '其他块'
+    },
     block: {
       type_empty: '空块',
       type_min_block: '最小票值区块',
@@ -250,7 +269,7 @@ export default {
     sender: '发送地址',
     receiver: '接收地址',
     value: '数值',
-    status: '收据',
+    status: '状态',
     method: '方法',
     random: '随机值',
     params: '参数'
@@ -286,6 +305,16 @@ export default {
       value: '数值',
       status: '状态',
       type: '类型'
+    },
+    block: {
+      title: '区块列表',
+      total: '总共{0}区块 ({1} FIL)',
+      height: '区块高度',
+      hash: '区块哈希',
+      time: '出块时间',
+      messages: '消息',
+      reward: '区块奖励',
+      miner: '矿工'
     }
   }
 }

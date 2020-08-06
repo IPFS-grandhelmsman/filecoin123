@@ -161,5 +161,5 @@ export function formatFileSize(value) {
   index = Math.floor(Math.log(temp) / Math.log(1024))
   let size = temp / Math.pow(1024, index)
   size = size.toFixed(2)
-  return size + units[index]
+  return size + ' ' + units[index]
 }

@@ -31,7 +31,7 @@
               </el-tooltip>
             </div>
             <span>
-              {{ statisticsData.total_power ? statisticsData.total_power : emptyText }}
+              {{ statisticsData.quality_adjusted_power ? formatFileSize(statisticsData.quality_adjusted_power) : emptyText }}
             </span>
           </div>
           <!-- 全网矿工数 -->
@@ -43,7 +43,7 @@
               </el-tooltip>
             </div>
             <span>
-              {{ statisticsData.total_miner ? statisticsData.total_miner : emptyText }}
+              {{ totalMiners ? totalMiners : emptyText }}
             </span>
           </div>
           <!-- 全网可用 -->
@@ -89,7 +89,17 @@
         <div class="main-content">
           <div class="bar-chart-wrapper">
             <div id="blockChart">
-              <div id="blocksWonChart" :style="{width: '780px', height: '300px',bottom:'20px'}"></div>
+              <div id="blocksWonChart" :style="{width: '780px', height: '280px',bottom:'20px'}"></div>
+            </div>
+            <div class="layer">
+              <div class="chart-labels">
+                <div class="miner">
+                  {{ $t('home.miner_no') }}
+                </div>
+                <div class="block-rate">
+                  {{ $t('home.block_rate') }}
+                </div>
+              </div>
             </div>
           </div>
           <div class="statistics">
@@ -102,8 +112,11 @@
                 </el-tooltip>
               </div>
               <span>
-                {{ $t('time.second', [statisticsData.head_update ? statisticsData.head_update : 0]) }}
+                {{ statisticsData.head_update ? formatHistoryTime(parseInt(statisticsData.head_update) * 1000) : 0 }}
               </span>
+              <span class="charts">
+              <div id="newBlockTimeChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
             <!-- 平均出块时间 -->
             <div class="item">
@@ -116,6 +129,9 @@
               <span>
                 {{ statisticsData.avg_blocktime ? statisticsData.avg_blocktime + 's' : emptyText }}
               </span>
+              <span class="charts">
+              <div id="AvgBlockTimeChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
             <!-- 最新出块奖励 -->
             <div class="item">
@@ -126,8 +142,11 @@
                 </el-tooltip>
               </div>
               <span>
-                {{ statisticsData.block_reward ? statisticsData.block_reward.toFixed(3) + ' FIL' : emptyText }}
+                {{ statisticsData.block_reward ? statisticsData.block_reward.toFixed(4) + ' FIL' : emptyText }}
               </span>
+              <span class="charts">
+              <div id="blockRewardChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
             <!-- 平均gas价格 -->
             <div class="item">
@@ -138,8 +157,11 @@
                 </el-tooltip>
               </div>
               <span>
-                {{ statisticsData.avg_gas_price ? statisticsData.avg_gas_price.toFixed(3) : emptyText }}
+                {{ statisticsData.avg_gas_price ? statisticsData.avg_gas_price > 1000000 ? statisticsData.avg_gas_price.toFixed(0) : statisticsData.avg_gas_price.toFixed(4) : emptyText }}
               </span>
+              <span class="charts">
+              <div id="avgGasPriceChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
             <!-- 平均消息数量 -->
             <div class="item">
@@ -150,9 +172,13 @@
                 </el-tooltip>
               </div>
               <span>
-                {{ statisticsData.avg_messages_tipset ? statisticsData.avg_messages_tipset.toFixed(3) : emptyText }}
+                {{ statisticsData.avg_messages_tipset ? statisticsData.avg_messages_tipset.toFixed(2) : emptyText }}
               </span>
+              <span class="charts">
+              <div id="avgMessageNumberChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
+            
             <!-- 平均消息大小 -->
             <div class="item">
               <div class="title">
@@ -162,8 +188,11 @@
                 </el-tooltip>
               </div>
               <span>
-                {{ statisticsData.avg_message_size ? statisticsData.avg_message_size.toFixed(3) : emptyText }} bytes
+                {{ statisticsData.avg_message_size ? statisticsData.avg_message_size.toFixed(2) : emptyText }} Bytes
               </span>
+              <span class="charts">
+              <div id="avgMessageSizeChart" :style="{width: '186px', height: '50px'}"></div>
+            </span>
             </div>
           </div>
         </div>
@@ -176,10 +205,10 @@
               <span>
                 {{ $t('home.block_height') }}
               </span>
-              <span>
-                {{ latestBlockHeader && latestBlockHeader.length > 0 ? latestBlockHeader[0].block_header.height : emptyText }}
+              <span class="cursor" @click="navigate('block-height',latestBlockHeader[0].block_header.height)">
+                #{{ latestBlockHeader && latestBlockHeader.length > 0 ? latestBlockHeader[0].block_header.height : emptyText }} ({{ latestBlockHeader.length }})
               </span>
-              <div class="more">
+              <div class="more cursor" @click="navigate('list/block','')">
                 <span>
                   {{ $t('home.all_block') }}
                 </span>
@@ -191,21 +220,21 @@
                 <div class="base-info">
                   <div class="miner">
                     <span>{{ $t('home.miner') }}</span>
-                    <span>{{ item.block_header.miner }}</span>
+                    <span class="cursor" @click="navigate('account-detail',item.block_header.miner)">{{ item.block_header.miner }}</span>
                     <span>{{ getTimeString(item.block_header.timestamp) }}</span>
                   </div>
                   <div class="hash">
                     <span>{{ $t('home.block_hash') }}</span>
-                    <span>{{ item.cid }}</span>
+                    <span :title="item.cid" class="cursor" @click="navigate('block-detail',item.cid)">{{ getAddrFormat(item.cid,16) }}</span>
                   </div>
                   <div class="reward">
                     <span>{{ $t('home.reward') }}</span>
-                    <span>{{ parseFloat(item.reward).toFixed(3) }} FIL</span>
+                    <span>{{ parseFloat(item.reward).toFixed(4) }} FIL</span>
                   </div>
                 </div>
-                <div class="messages">
-                  <span>{{ $t('home.message_count', [86]) }}</span>
-                  <img src="@/assets/images/icon_arrow.png" alt="">
+                <div class="messages cursor" @click="navigate('block-detail',item.cid)">
+                  <span>{{ $t('home.message_count', [item.msg_cids ? item.msg_cids.length : 0]) }}</span>
+                  <img src="@/assets/images/icon_arrow_ios.png" alt="">
                 </div>
               </div>
             </div>
@@ -216,7 +245,7 @@
               <span>
                 {{ $t('home.lastest_message') }}
               </span>
-              <div class="more">
+              <div class="more cursor" @click="navigate('list/message','')">
                 <span>
                   {{ $t('home.all_message') }}
                 </span>
@@ -225,21 +254,21 @@
             </div>
             <div class="body">
               <div v-for="(item, index) in latestMessage" :key="index" class="block-item">
-                <div class="icon-wrapper">
+                <!-- <div class="icon-wrapper">
                   <img src="@/assets/images/icon_email.png" alt="">
-                </div>
+                </div> -->
                 <div class="base-info">
                   <div class="address">
-                    <span>{{ item.cid }}</span>
-                    <span>{{ item.exit_code == '0' ? $t('home.status.success') : $t('home.status.pending') }}</span>
-                    <span>{{ parseFloat(item.msg.value).toFixed(3) }} FIL</span>
+                    <span :title="item.cid" class="cursor" @click="navigate('message-detail',item.cid)">{{ getAddrFormat(item.cid,15) }}</span>
+                    <span :class="item.exit_code == '0' ? 'success' : 'fail'">{{ item.exit_code == '0' ? $t('home.status.success') : $t('home.status.fail') }}</span>
+                    <span>{{ parseFloat(item.msg.value).toFixed(4) }} FIL</span>
                   </div>
                   <div class="status">
                     <span>{{ $t('home.sender') }}</span>
-                    <span>{{ item.msg.from }}</span>
+                    <span :title="item.msg.from" class="cursor" @click="navigate('account-detail',item.msg.from)">{{ getAddrFormat(item.msg.from,6) }}</span>
                     <img src="@/assets/images/icon_arrow.png" alt="">
                     <span>{{ $t('home.receiver') }}</span>
-                    <span>{{ item.msg.to }}</span>
+                    <span :title="item.msg.to" class="cursor" @click="navigate('account-detail',item.msg.to)">{{ item.msg.to.length > 12 ? getAddrFormat(item.msg.to,4) : item.msg.to }}</span>
                     <span>{{ getTimeString(item.msgcreate) }}</span>
                   </div>
                 </div>
@@ -256,16 +285,16 @@
               <span>{{ $t('home.miner_ranking') }}</span>
               <img src="@/assets/images/icon_help.png" alt="">
             </div>
-            <div class="more">
+            <div class="more cursor" @click="navigate('list/miner','')">
               <span>{{ $t('home.all_miner') }}</span>
               <img src="@/assets/images/icon_arrow_ios.png" alt="">
             </div>
           </div>
-          <el-table :data="minerRankingData">
+          <el-table :data="minerRankingData" header-row-class-name="table-header" border stripe>
             <!-- 排名 -->
             <el-table-column
               :label="$t('home.ranking')"
-              :width="80"
+              :min-width="80"
               align="center">
               <template slot-scope="scope">
                 <template v-if="scope.row.rank == 1">
@@ -285,9 +314,10 @@
             <!-- 矿工节点 -->
             <el-table-column
               :label="$t('home.miner_node')"
-              :min-width="100">
+              :min-width="100"
+              class-name="miner-column">
               <template slot-scope="scope">
-                <span>{{ scope.row.miner_address }}</span>
+                <span class="cursor" @click="navigate('account-detail',scope.row.miner_address)">{{ scope.row.miner_address }}</span>
               </template>
             </el-table-column>
             <!-- 归属团队 -->
@@ -295,8 +325,7 @@
               :label="$t('home.team')"
               :min-width="100">
               <template slot-scope="scope">
-                <div class="team-warpper">
-                  <!-- <img src="@/assets/images/img_logo.png" alt=""> -->
+                <div class="team-wrapper">
                   <span>{{ scope.row.miner_name }}</span>
                 </div>
               </template>
@@ -320,7 +349,6 @@
               <template slot-scope="scope">
                 <div class="merge-wrapper">
                   <span>{{ scope.row.reward_in_24h }}</span>
-                  <!-- <span>12.86%</span> -->
                 </div>
               </template>
             </el-table-column>
@@ -332,7 +360,6 @@
               <template slot-scope="scope">
                 <div class="merge-wrapper">
                   <span>{{ scope.row.mining_efficiency }}</span>
-                  <!-- <span>12.86%</span> -->
                 </div>
               </template>
             </el-table-column>
@@ -351,8 +378,10 @@
 <script>
 import echarts from 'echarts'
 import { mapGetters } from 'vuex'
-import { formatNumber, parseTime, formatHistoryTime } from '@/utils'
+import { formatNumber, parseTime, formatHistoryTime, formatFileSize } from '@/utils'
 import * as api from '@/api/common'
+import * as helper from '@/utils/helper'
+import { getAddrFormat } from '@/utils/helper'
 
 export default {
   name: 'Home',
@@ -363,8 +392,9 @@ export default {
       intervalToken: null,
       refreshInterval: 30,
       timerCounter: 0,
-      emptyText: 'calculating...',
-      tipset_height: '', // 区块高度
+      emptyText: '...',
+      tipset_height: '',
+      totalMiners: 0,
 
       statisticsData: {},
       latestBlockHeader: [],
@@ -475,13 +505,13 @@ export default {
   },
 
   created() {
-    // this.mockMapData()
     this.refresh()
     this.startTimer()
   },
 
   mounted() {
     // this.drawMapChart()
+    
   },
 
   beforeDestroy() {
@@ -492,10 +522,15 @@ export default {
     formatNumber,
     parseTime,
     formatHistoryTime,
+    formatFileSize,
+    getAddrFormat,
+
+    navigate(url, selector) {
+      helper.navigate(this, url, selector)
+    },
 
     // 获取基础信息
     fetchBaseInfo() {
-      var that = this
       api.fetchBaseInformation().then(response => {
         const result = response.res
         const data = response.data
@@ -515,8 +550,8 @@ export default {
           // "avg_messages_tipset": 74.705,//平均消息数量
           // "avg_message_size": 236.261,//平均消息大小
           // "avg_block_tipset": "2.570"//平均每高度区块数量
-          that.statisticsData = data
-          that.tipset_height = data.tipset_height
+          this.statisticsData = data
+          this.tipset_height = data.tipset_height
         }
       }).catch(error => {
         console.error(error.message)
@@ -524,7 +559,6 @@ export default {
     },
 
     fetchBlockTimeData() {
-      var that = this
       api.fetchBlockTimeData().then(response => {
         const result = response.res
         const data = response.data
@@ -545,15 +579,14 @@ export default {
           // "avg_blocktime": "25", //平均出块时间
           // "min": "25", //最小出块时间
           // "max": "25"//最大出块时间
-          that.statisticsData.avg_blocktime = data.avg_blocktime
+          this.statisticsData.avg_blocktime = data.avg_blocktime
         }
       }).catch(error => {
         console.error(error.message)
       })
     },
 
-    fetchLatestBlock(count = 1) {
-      var that = this
+    fetchLatestBlock(count = 10) {
       api.fetchLatestBlock(count).then(response => {
         // "block_header": [
         //   {
@@ -586,8 +619,20 @@ export default {
           console.info(result)
         }
         if (data) {
-          that.latestBlockHeader = data.block_header
-          that.tipset_height = data.block_header[0].block_header.height
+          let blockHeight = 0
+
+          if (data.block_header && data.block_header.length > 0) {
+            const result = []
+            blockHeight = data.block_header[0].block_header.height
+            for (let index = 0; index < data.block_header.length; index++) {
+              const element = data.block_header[index]
+              if (element.block_header.height === blockHeight) {
+                result.push(element)
+              }
+            }
+            this.latestBlockHeader = result
+          }
+          this.tipset_height = data.block_header[0].block_header.height
         }
       }).catch(error => {
         console.error(error)
@@ -621,7 +666,7 @@ export default {
         //             "bafy2bzacecisevdodpwmx7o4viisybq343rufbpmmalwj6zi23q3gz4zrgrhi"
         //         ],
         //         "exit_code": "0",
-        //         "return": "��?>",
+        //         "return": "",
         //         "gas_used": "248229709",
         //         "method_name": "ChangePeerID"
         //     },
@@ -634,7 +679,7 @@ export default {
         //             "gasprice": "0.000000000000000001",
         //             "gaslimit": "211225470",
         //             "method": "7",
-        //             "params": "ghhyWQeAt+T+LtBDURlbuiFQ7OK8g3eticKMBeg8c8ZYPLgrzcPYo5uE/J7VSZrxkSif+uz8pNcYil97Pg+RQDCe1B+CKOWPWjjvQ6rUW2YzgMZJw5UGkoOAQbX5aov8xiMxZZaPBfpwl3ex1/l3ox0U7A3LO+gXpKoL3bTLVnhLw7nC83lIuQbVHyZnRiMN5YRyyKZ4tGJm3JfdUrAFLcVAElqRFIldzXnf+Yo3KS27x6HOqOQ5O4PT25CQLXnT9P+h8oTdqJ0FX1EAsZDnfRGUYbSTTM3qzGQpOHy+nSbSqJ5NzmMgCo4+ieOIwJLnFRCIJph6twOhNGczVieisRJFohAXGOboImtSa5yqMtrwiXGN6zhZgrxEShcJO7zmcJ3I4SdbBnwIHyg7ruSpkgyhkDw/0KWnfPDjxAQj7v9PxeCzS4OzN+uxDSjALSCwtmZjuXoplCQWG7l0oMD4oWzULT8FNGsPSjId3zloxfWXyGW7v8y0q39mHzdFwBdfSt+9gvLaprart0MThFg0BHvpmiNq72cjJj7BSgy95QitN7YW9I3XNjS9jyHJhx67PyD6/sQ/sScRO0ii4SzBpTC8s7w3brtdd3+VXIyUOYoc0+qQlE9Eqjbps7kQAgNuq4rJO04UFfr8B/L1OvH7NPPwyWDUSClbWWoKhNOlbdOjDeJeOV5iThdK8CWPWRLhkc7jPLBmjXdeeEiHGa9FD9qQg8DiNUk9ZqAAxvovB4Ko7OOR79NKnufMa6+A39PmWK2nSPJygC9+jSdTKe7wUkPKetzXJEuBdWN+7OsxkxVaMx32voLaSy6U5TO3J5yFCKJZ+aEDmXpNAnx2KDM1VIC9JuVTkkitIAwxGjaV4ctI0LnnbPODEBCFVYNilEiEolcJxWwMFW2Z9u2SzUXjvVAN+2Y7aTMqJj1pW19wS9Xi4t25NmCICVahXN4NuqJ5zPJ0f+X6oJEheX8lBSbLKuJM53kJNzqFoaJC7fxo4OFVZsXOEJmtUWw+lHVPnbtghb4qBNjAt7rgw4+J+pqBEqs7h8SfRhf4xwBCCVlq3CQZ5lQfdsCBTNxMuGfLUwL021D1dgTlmViJ/hCriIcvK74Gy8ZYWkctY9edyLdzHS2S7zKv3dt8tj8O8EGqXafx8ScF2FywEJZ1zGXPXB/7cZFOogzxXM2ZGEb8ydpDuo3sd3wHg8HgYtoeNIcOtX8DGzqoAeAIgCuxbOGOE7kUU/9ExlcSWi0r3hSlW5gb7h8od7MJ+IsitBGXUBywbnCnTewLoYw+mFqmry7CyXF5Dog7u+bfQj9XmvJvuoLdfRXZebBaBF+I0OFN9FcGhWfgSfb86ULNhqyR0wOGkFd82Kr2RcfDva11YwR1Niq08sdcJ3uCc2LbQCOWrqPQg7Vw8CQnAnGED59huKDan5EOiEF/ErgUae0NegxvC4JQbhTbT3GZLlFBafojmrt7f22uLc+T9RNPr63VAr/TmboPuAKeL3HV2skGkl0D9tdKdf4p9DLLzu2OgCYPg54B2YxIHzKsMeNHs2wfTtwB8JJnMVw8ryLUazLxtFX3304KCFHPPnGC4dQc3Y3Ak26t5a1c9k8vvX5libgm0hfFFQgI2A7evghypm44+NNEUSnaDcH1mnkYZ9yOz+KhkDd4BxCknGFLIZekAvQyhZy24OG/LwLnSaoG8rVRsL1EC8tXvcDRCdx77Pd5rI+X/oLfShahyBFq5Zvgo9QN62k3COKmZqGEFZ/8gGw6zBorMV3dtjzxVbM8vcxEXTcQ0CACNUCNzBvmPuZDiKRUEXvVCdgowP1s1f/6glj8XlwR1U2ajGR5s8EOBHOfWfCGMqe7peqGAbSaVcjHoZ7S5NZKmeiLhn7qTH5c5rQGxhAa9MYvc5E/sSrR9YVz5dEj4zZ1r1b8Z2O5ZPqYACZ6xGhkYRavQLm6Y29sqKcUfOTuahVzYA6guQSYAYmlCtLcfOj8gEQcviJ4YGBapMScYu3byehsQuSNhZSy0H9RhMQFUbHbKGwiQWlq4ZEPCp5g+0/rFW5DHyTWXiF2iweyhaoxEGOxKFinecJyBCvFNmnA8BuIiw6pwCnVs8nikF55BCTSMw03cPu2Q2NPtJ57h+KhixGiTpZLDWPSqxyrwydz87D58xmx5TmxQ1RP4mbjStSzodgllMXPZ3fXCHzVYFt/XQrFYVi0LOT/k7duzbKd1X8mD+/vBMFFBUSwIYT6L2sxp5oqEJrZaIeoljENzADq/42crLJZ9FqdrnKqVbefuC58v/6pUgQzbPYCCYqjUyOno3OOF7vsiSFuhuqkaeHYrtD+MFpqlsNFMzy5i2EFLx4wRSYSLu8xDsaFjJSqXdIYKc/mzKSi8PuPqyYoDLRcOOTLUO+0y36sw3rIJrBZXiz2gPIFLDbvLbYQ5eDD3UQ9hwU4qa4heHyFERawh3trzyo+qcD4g5GwsXaZnHIdNeeoIuufJX50QSpB/SQbSESGUZ75OxvkNTRbpzXYTdZpSN+ZeoQMWUhRVLBN+dZTaZfX9cG51R89VOMJGrn6AEKJ3qOjh55tNB8L"
+        //             "params": "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"
         //         },
         //         "cid": "bafy2bzaceaccwr6uxv5hujfzn3cqic43vpb5hwadorssfur2o6xrp2zpy75ek",
         //         "sign_cid": "",
@@ -677,8 +722,11 @@ export default {
       this.fetchLatestBlock()
       this.fetchLatestMessage()
       this.fetchBlocksWon()
-      // 获取排行榜
       this.fetchTopPower()
+      this.fetchAccountData()
+      this.fetchTotalPowerGraphical()
+      //获取基础信息列表
+      this.fetchBaseInformationList()
     },
 
     secondRefresh() {
@@ -704,17 +752,6 @@ export default {
         clearInterval(this.intervalToken)
         this.intervalToken == null
       }
-    },
-
-    mockMapData() {
-      this.mapDataSource.push({ name: '阿姆斯特丹', name_en: 'Amsterdam', location: [4.895168, 562.37021], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '奥克兰市', name_en: 'Auckland', location: [174.763332, -36.84846], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '曼谷', name_en: 'Bangkok', location: [100.501765, 13.756331], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '巴塞罗那', name_en: 'Barcelona', location: [2.173403, 41.385064], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '北京', name_en: 'Beijing', location: [116.407395, 39.904211], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '柏林', name_en: 'Berlin', location: [13.404954, 52.520007], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '布拉迪斯拉发', name_en: 'Bratislava', location: [17.107748, 48.148596], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
-      this.mapDataSource.push({ name: '布鲁塞尔', name_en: 'Brussels', location: [4.35171, 50.85034], node_id: '12D3KooWBXTLGMgnnh2DoyhKYyuFwBYWmpjTkERKMjGz8ndL3LYE', ip_address: '95.217.120.22' })
     },
 
     buildMapData() {
@@ -752,23 +789,23 @@ export default {
           console.info(result)
         }
         if (data) {
-          var xdata = []
-          var miners = []
-          var heghts = []
-          var series = []
-          var maxLen = 0
-          var seriesData, tname, temp
+          const xdata = []
+          const miners = []
+          const series = []
+          let maxLen = 0
+          let tname, temp
 
-          var minerList = data.list
+          const minerList = data.list
+
+          data.tipset_own = data.tipset_own.reverse()
 
           for (const i in data.tipset_own) {
-            seriesData = []
             for (const y in data.tipset_own[i].tipset) {
               temp = data.tipset_own[i].tipset[y]
               tname = temp.miner_id
               if (!miners[tname]) {
                 miners[tname] = []
-                for (const xx in data.tipset_own) {
+                for (const item in data.tipset_own) {
                   miners[tname].push(0)
                 }
               }
@@ -776,7 +813,6 @@ export default {
                 maxLen = tname.length
               }
               miners[tname][i] = temp.tick_count
-              // seriesData.push(y.tick_count)
             }
             xdata.push(data.tipset_own[i].height)
           }
@@ -790,16 +826,18 @@ export default {
             })
           }
 
-          // console.log(series);
-          // return 0
-
-          // 基于准备好的dom，初始化echarts实例
           const blocksWonChart = echarts.init(document.getElementById('blocksWonChart'), 'light')
           blocksWonChart.resize()
           // 绘制图表
           blocksWonChart.setOption({
-            // backgroundColor: '#ffffff',
-            // legend:minersArr,
+            title: {
+              text: this.$t('home.lastest_block'),
+              textStyle: {
+                fontSize: 14, // 字体大小
+                color: '#3C426B' // 字体颜色
+              },
+              left: 'center'
+            },
             legend: {
               textStyle: {
                 fontSize: 13, // 字体大小
@@ -807,18 +845,28 @@ export default {
               },
               type: 'scroll',
               orient: 'vertical',
+              // pageIconColor: '#00a9eb',       // 可以点击的翻页按钮颜色
+              //   pageIconInactiveColor: '#7f7f7f',  // 禁用的按钮颜色
+              pageIconSize:11,
+              pageButtonItemGap: 12,
+              pageIcons:{
+                vertical:[
+                  "path://M247.68 693.44a32 32 0 1 1-47.36-42.88l288-320a32 32 0 0 1 47.36 0l288 320a32 32 0 1 1-47.36 42.88L512 399.68z",
+                  "path://M512 624.32l264.32-293.76a32 32 0 1 1 47.36 42.88l-288 320a32 32 0 0 1-47.36 0l-288-320a32 32 0 0 1 47.36-42.88z"
+                ],
+              },
               right: 5,
               top: 35,
               itemWidth: 12,
               itemHeight: 3,
               // bottom: 1,
               formatter: function(params) {
-                var str = params + '  '
+                let str = params + '  '
                 if (maxLen > params.length) {
                   str = params + '    '
                 }
                 for (const i in minerList) {
-                  if (params == minerList[i].miner) {
+                  if (params === minerList[i].miner) {
                     str += Math.floor(minerList[i].percent * 100) / 100
                     // str += minerList[i].percent
                     break
@@ -831,7 +879,7 @@ export default {
               top: '15%',
               right: '18%',
               left: '8%',
-              bottom: '1%'
+              bottom: '6%'
             },
             toolbox: {
               show: true
@@ -840,22 +888,23 @@ export default {
               trigger: 'axis',
               textStyle: {
                 align: 'left'
+              },
+              formatter: function(params) {
+                let newParams = []
+                const tooltipString = []
+                newParams = [...params]
+                newParams.sort((a, b) => {
+                  return b.value - a.value
+                })
+                tooltipString.push(newParams[0].axisValue + ' <br/>')
+                newParams.forEach((p) => {
+                  const cont = p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>'
+                  if (p.value > 0) {
+                    tooltipString.push(cont)
+                  }
+                })
+                return tooltipString.join('')
               }
-              // formatter: function (params) {
-              // let newParams = [];
-              // let tooltipString = [];
-              // newParams = [...params];
-              // newParams.sort((a, b) => {
-              //   return b.value - a.value
-              // });
-              // tooltipString.push(newParams[0].axisValue + " <br/>");
-              // newParams.forEach((p) => {
-
-              //   const cont = p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
-              //   tooltipString.push(cont);
-              // });
-              // return tooltipString.join('');
-              // }
             },
             xAxis: {
               data: xdata,
@@ -923,17 +972,19 @@ export default {
 
     // 获取排行榜
     fetchTopPower() {
-      var that = this
-      that.isLoading = true
+      this.isLoading = true
       api.fetchGrafanaRank(1, 10).then(response => {
-        that.isLoading = false
-        if (response.code != 200) {
+        this.isLoading = false
+        if (response.code !== 200) {
           return ''
         }
 
-        var data = response.data.data
+        const data = response.data.data
+        // scope.row.mining_efficiency
         for (const i in data) {
           data[i].rank = 1 + parseInt(i)
+          data[i].mining_efficiency = data[i].mining_efficiency.replace(/TiB/, 'TB')
+          data[i].increased_power_str = data[i].increased_power_str.replace(/TiB/,"TB")
         }
         this.minerRankingData = data
       }).catch(error => {
@@ -941,59 +992,151 @@ export default {
       })
     },
 
-    // 获取排行榜
-    fetchTopPower_bak() {
-      var that = this
-      var params = 'db=chainstats-ntwk-testnet&q=SELECT top("value", "miner", 25) as "power" FROM "chain.miner_power" WHERE time >= now() - 30m&epoch=ms'
-      that.isLoading = true
-      api.fetchGrafanaData('/query?' + params).then(response => {
-        that.isLoading = false
-        if (!response.results[0].series[0].values) {
-          that.$message({
-            type: 'error',
-            message: '未知错误'
-          })
+    // 获取算力统计图表
+    fetchTotalPowerGraphical() {
+      api.fetchTotalPower().then(response => {
+        const data = response.data
+        if (data && data.data && data.data.length > 0) {
+          this.statisticsData.quality_adjusted_power = data.data[data.data.length - 1].quality_adjusted_power
         }
-        var values = response.results[0].series[0].values
-        var data = []
-        let power = 0.00
-        let temp
-        for (let i = 0; i < values.length; i++) {
-          for (let j = i; j < values.length; j++) {
-            if (values[i][1] < values[j][1]) {
-              temp = values[i]
-              values[i] = values[j]
-              values[j] = temp
+      }).catch(error => {
+        console.error(error)
+      })
+    },
+
+    // 获取矿工列表
+    fetchAccountData() {
+      this.isLoading = true
+      api.fetchAccountList(0, 1).then(response => {
+        this.isLoading = false
+        const result = response.res
+        const data = response.data
+        if (result) {
+          console.info(result)
+        }
+        if (data) {
+          this.totalMiners = data.total
+        }
+      }).catch(error => {
+        console.error(error)
+      })
+    },
+
+     // 获取基础信息列表
+    fetchBaseInformationList() {
+      var that = this
+      this.isLoading = true
+      api.fetchBaseInformationList().then(response => {
+        this.isLoading = false
+        if (response.Status != 1) {
+          console.info(result)
+          return ""
+        }
+
+        var data = response.Result
+
+      //         comCharts : {
+      //   "newBlockTimeChart",
+      //   "AvgBlockTimeChart",
+      //   "blockRewardChart",
+      //   "avgGasPriceChart",
+      //   "avgMessageNumberChart",
+      //   "avgMessageNumberChart",
+      // },
+
+        //that.comCharts
+        var myCharts = {}
+        var newData = []
+        
+        // for(var i = 0; i < that.myCharts.length;i++){
+        //   data.forEach(item => {
+        //     // newData[that.myCharts[i]] = item.
+        //   });
+        //   newData[that.myCharts[i]] = [];
+        // }
+
+        // this.setCommonChart()
+        
+
+      }).catch(error => {
+        console.error(error)
+      })
+    },
+
+    /**
+     * 设置通用曲线
+     */
+    setCommonChart(name = 'avgMessageNumberChart',xdata = [1,1,1,1,1,1],seriesData = [1,1,1,1,1,1]){
+      // 基于准备好的dom，初始化echarts实例
+      const chart = echarts.init(document.getElementById(name))
+      // const chart = echarts.init(document.getElementById('avgMessageChart'))
+      chart.resize()
+      chart.setOption({
+        legend: {
+            show: false,
+        },
+        grid: {
+          left: 0,
+          right:0,
+          bottom: '100%'
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: xdata,
+          axisTick: { // y轴刻度线
+            show: false,
+          },
+          axisLine: { // y轴
+            show: false,
+          },
+          axisLabel: {
+            show: false,
+          }
+        },
+        yAxis: {
+          type: 'value',
+          splitLine: {
+            show:false,
+          },
+          axisTick: { // y轴刻度线
+            show: false,
+          },
+          axisLine: { // y轴
+            show: false
+          },
+          min: 0,
+          splitNumber: 5, // 显示点数
+          axisLabel: {
+            show: false,
+          }
+        },
+        series: [{
+          data: seriesData,
+          lineStyle:{
+            width:0.5,  //设置线条粗细
+          },
+          type: 'line',
+          symbol: 'none',
+          color: 'rgba(230,242,255,1)',
+          name: '',
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                offset: 0,
+                color: 'rgba(237,244,255,1)'
+              }, {
+                offset: 1,
+                color: 'rgba(249,251,254,0)'
+              }]
             }
           }
-        }
-        for (let i = 0; i < values.length; i++) {
-          power = Math.floor((values[i][1] / Math.pow(1024, 4)) * 100) / 100
-          if (power >= 1024) {
-            power = Math.floor((power / 1024) * 100) / 100 + ' PiB'
-          } else {
-            power += ' TiB'
-          }
-          const rank = i + 1
-          // switch(i){
-          //   case 0:
-          //     rank = "<img width='20px' src='/static/images/ipfs/first_place.png'>";
-          //     break;
-          //   case 1:
-          //     rank = "<img width='20px' src='/static/images/ipfs/second_place.png'>";
-          //       break;
-          //   case 2:
-          //     rank = "<img width='20px' src='/static/images/ipfs/third_place.png'>";
-          //     break;
-
-          // };
-          data.push([
-            rank,
-            values[i][2],
-            power
-          ])
-        }
-        this.minerRankingData = data
+        }]
       })
     }
   }

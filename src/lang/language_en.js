@@ -27,7 +27,10 @@ export default {
     lastPage: 'Last',
     show: 'Show',
     selected: 'select',
-    records: 'records'
+    records: 'records',
+    location: 'Location',
+    peer: 'Peer',
+    confirmations: 'confirmations'
   },
   page_404: {
     copyright: 'Copyright',
@@ -42,22 +45,25 @@ export default {
     blockchain: 'Blockchain',
     data: 'Data',
     map: 'Map',
-    input_hint: 'Please enter address/message-id/block-height/block-hash/node-id',
+    input_hint: 'Please enter address/message-id/block-height/block-hash',
     login: 'Sign in',
     register: 'Sign up',
-    lang_zh: '简体中文',
-    lang_en: 'English',
+    lang_zh: '中文',
+    lang_en: 'EN',
     personal_center: 'Personal center',
-    logout: 'Logout'
+    logout: 'Logout',
+    no_match: 'No match result'
   },
   footer: {
     title: 'Filecoin123',
     copyright: 'Copyright© 2019-2020 grandhelmsman',
-    case_number: 'Case number 19007140',
+    case_number: '赣ICP备19007140号',
+    // case_number: 'Case number 19007140',
     powered_by: 'Powered by grandhelmsman',
     project_description: 'Project description',
     filecoin_official_website: 'Filecoin official website',
     filecoin_manual: 'Filecoin manual',
+    wallet: 'Filecoin wallet',
     official_browser: 'Official browser',
     blockchain: 'Blockchain',
     block: 'Block',
@@ -78,13 +84,13 @@ export default {
     month: '{0} months ago',
     day: '{0} days ago',
     hour: '{0} hours ago',
-    minute: '{0} minutes ago',
-    second: '{0} seconds ago',
-    minute_second: '{0}minutes {1}seconds ago',
-    hour_minute: '{0}hours {1}minutes ago',
+    minute: '{0} min ago',
+    second: '{0}s ago',
+    minute_second: '{0}min {1}s ago',
+    hour_minute: '{0}hours {1}min ago',
     day_hour: '{0}days {1}hours ago',
-    hour_minute_second: '{0}hours {1}minutes {2}seconds ago',
-    day_hour_minute: '{0}days {1}hours {2}seconds ago'
+    hour_minute_second: '{0}hours {1}min {2}s ago',
+    day_hour_minute: '{0}days {1}hours {2}min ago'
   },
   app_constant: {
     status: {
@@ -112,12 +118,13 @@ export default {
     }
   },
   home: {
+    lastest_block: 'Latest block',
     lastest_block_height: 'Latest block height',
     lastest_block_height_description: 'Current latest packaged block number',
     computing_power_total: 'Computing power',
     computing_power_total_description: 'Latest total network power',
-    miner_total: 'Miner count',
-    miner_total_description: 'Total number of miner accounts in the entire network',
+    miner_total: 'Account count',
+    miner_total_description: 'Total number of accounts in the entire network',
     available_total: 'Available (FIL)',
     available_total_description: 'Is circulating on the network, does not include the number of tokens frozen in mortgage',
     in_circulation: 'In circulation (FIL)',
@@ -136,6 +143,8 @@ export default {
     average_message_count_description: 'Average number of messages per block height in the past 24 hours',
     average_message_size: 'Avg message size',
     average_message_size_description: 'Average message size in the last 24 hours',
+    miner_no: 'Miner',
+    block_rate: 'Block R.',
     block_height: 'Block height',
     all_block: 'All block',
     miner: 'Miner',
@@ -173,6 +182,17 @@ export default {
     block_list: 'Blocks',
     message_list: 'Messages',
     account_list: 'Accounts',
+    tooltips: {
+      miner: 'Miner: {0}',
+      height: 'Height: {0}',
+      time: 'Time: {0}',
+      hash: 'Hash: {0}'
+    },
+    legend: {
+      empty_block: 'Empty Block',
+      min_ticket_block: 'Min Ticket Block',
+      other_block: 'Other Block'
+    },
     block: {
       type_empty: 'Null Block',
       type_min_block: 'Min Ticket Block',
@@ -287,6 +307,16 @@ export default {
       value: 'Value',
       status: 'Status',
       type: 'Type'
+    },
+    block: {
+      title: 'Blocks',
+      total: '{0} blocks ({1} FIL)',
+      height: 'Block Height',
+      hash: 'Block Hash',
+      time: 'Time',
+      messages: 'Message',
+      reward: 'Reward',
+      miner: 'Miner'
     }
   }
 }

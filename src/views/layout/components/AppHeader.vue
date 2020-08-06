@@ -10,7 +10,7 @@
         <div class="navigation">
           <span :class="navIndex == 0 ? 'selected' : ''" @click="onClickNavigationItem(0)">{{ $t('header.home') }}</span>
           <span :class="navIndex == 1 ? 'selected' : ''" @click="onClickNavigationItem(1)">{{ $t('header.blockchain') }}</span>
-          <span :class="navIndex == 2 ? 'selected' : ''" @click="onClickNavigationItem(2)">{{ $t('header.data') }}</span>
+          <!-- <span :class="navIndex == 2 ? 'selected' : ''" @click="onClickNavigationItem(2)">{{ $t('header.data') }}</span> -->
           <span :class="navIndex == 3 ? 'selected' : ''" @click="onClickNavigationItem(3)">{{ $t('header.map') }}</span>
 
           <div class="search">
@@ -35,6 +35,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as api from '@/api/common'
+import * as helper from '@/utils/helper'
 
 export default {
   name: 'AppHeader',
@@ -66,9 +68,28 @@ export default {
     this.$store.dispatch('SetImmersive', false).then(response => {})
     this.$store.dispatch('SetColor', '#fff').then(response => {})
     this.$store.dispatch('SetOpacity', 0).then(response => {})
+
+    this.analyzeRoute()
   },
 
   methods: {
+    analyzeRoute() {
+      const href = window.location.href
+      if (href.indexOf('/list/block') !== -1 ||
+      href.indexOf('/list/message') !== -1 ||
+      href.indexOf('/list/account') !== -1 ||
+      href.indexOf('/block-detail/') !== -1 ||
+      href.indexOf('/block-height/') !== -1 ||
+      href.indexOf('/message-detail/') !== -1 ||
+      href.indexOf('/account-detail/') !== -1) {
+        this.navIndex = 1
+      } else if (href.indexOf('/data/miner') !== -1 || href.indexOf('/data/token') !== -1) {
+        this.navIndex = 2
+      } else if (href.indexOf('/peer-map') !== -1) {
+        this.navIndex = 3
+      }
+    },
+
     onClickToggleLanguage(language = 'en') {
       this.$i18n.locale = language
       this.$store.dispatch('ToggleLanguage', language)
@@ -93,6 +114,37 @@ export default {
     },
 
     onClickSearch() {
+      const keyword = this.searchKeyword.trim()
+
+      const loading = helper.loading(this)
+      api.fetchSearchType(keyword).then(response => {
+        loading.close()
+
+        const data = response.data
+        const flag = data.model_flag.toUpperCase()
+        if (flag === 'HEIGHT') {
+          // 区块高度
+          helper.navigate(this, 'block-height', keyword)
+        } else if (flag === 'MESSAGE_ID') {
+          // 消息详情
+          helper.navigate(this, 'message-detail', keyword)
+        } else if (flag === 'ACTOR') {
+          // 账号详情
+          helper.navigate(this, 'account-detail', keyword)
+        } else if (flag === 'BLOCK_HASH') {
+          // 区块详情
+          helper.navigate(this, 'block-detail', keyword)
+        } else {
+          this.$notify({
+            message: this.$t('header.no_match'),
+            type: 'warning'
+          })
+        }
+      }).catch(error => {
+        loading.close()
+        console.error(error)
+      })
+
       this.$store.dispatch('SetKeyword', this.searchKeyword)
     },
 

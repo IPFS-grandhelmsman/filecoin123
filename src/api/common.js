@@ -91,7 +91,8 @@ export function fetchPeerMap() {
   //       "latitude": 36.066
   //   },
   // ]
-  return ajax.postJson('peer/PeerMap')
+  // return ajax.postJson('peer/PeerMap')
+  return ajax.post('Grafana/minerData', { method: 'peer/PeerMap' })
 }
 
 // 获取首页统计数据
@@ -287,7 +288,8 @@ export function fetchLatestMsg(count = 10) {
 
 // 获取最新消息列表
 export function fetchBlocksWon() {
-  return ajax.post('Grafana/minerData', { method: 'GetBlockWonList' })
+  return ajax.post('Grafana/getBlockWonList')
+  // return ajax.post('Grafana/minerData', { method: 'GetBlockWonList' })
 }
 
 // 获取排行榜数据
@@ -318,3 +320,44 @@ export function fetchBlockMessages(method = '', begindex = 0, count = 25, block_
 export function fetchAccountList(begindex = 0, count = 25) {
   return ajax.post('Grafana/getAccountList', { begindex: begindex, count: count })
 }
+
+// 获取区块哈希详情
+export function fetchBlockByCid(cid) {
+  return ajax.post('Grafana/getBlockByCid', { cid: cid })
+}
+
+// 获取消息详情
+export function fetchMessageDetails(msg_cid) {
+  return ajax.post('Grafana/getBlockMessagesInfo', { msg_cid: msg_cid })
+}
+
+// 获取区块确认次数
+export function fetchBlockConfirmCount(cid) {
+  return ajax.post('Grafana/getBlockConfirmCount', { cid: cid })
+}
+
+// 获取用户账户详情
+export function fetchAccountDetails(actorId) {
+  return ajax.post('Grafana/getAccountActorById', { actor_id: actorId })
+}
+
+// 获取用户消息列表
+export function fetchMessagesByAddress(address = '', method = '', begindex = 0, count = 25, from_to = '') {
+  return ajax.post('Grafana/getMessageByAddress', { address: address, method: method, begindex: begindex, count: count, from_to: from_to })
+}
+
+// 获取用户消息列表
+export function fetchBlockByMiner(miners = [], begindex = 0, count = 25) {
+  return ajax.post('Grafana/getBlockByMiner', { miners: miners, begindex: begindex, count: count })
+}
+
+// 获取搜索类型
+export function fetchSearchType(keyword) {
+  return ajax.post('Grafana/search', { search: keyword })
+}
+
+// 获取基础信息列表
+export function fetchBaseInformationList() {
+  return ajax.post('Grafana/getBaseInformationList')
+}
+
